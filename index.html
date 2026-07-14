@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Lamy Advogados — Decisões jurídicas que impactam diretamente o resultado da sua empresa.">
+  <title>Lamy Advogados</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Stack+Sans+Headline:wght@400;500;600;700&family=Stack+Sans+Text:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/sections.css">
+</head>
+<body>
+
+  <!-- Nav -->
+  <header class="nav">
+    <div class="nav__inner">
+      <a href="#" class="nav__logo" aria-label="Lamy Advogados — Início">
+        <img src="assets/images/logo-principal.png" alt="Lamy Advogados" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+        <span class="nav__logo-text" style="display:none">LAMY</span>
+      </a>
+
+      <button class="nav__toggle" aria-label="Abrir menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+
+      <nav class="nav__links" aria-label="Navegação principal">
+        <a href="#escritorio" class="nav__link nav__link--active">O Escritório</a>
+        <a href="#segmentos" class="nav__link">Segmentos</a>
+        <a href="#equipe" class="nav__link">Equipe</a>
+        <a href="calculadora.html" class="nav__link">Calculadora</a>
+        <a href="calculadora.html" class="btn btn--nav nav__cta-mobile">Iniciar Diagnóstico</a>
+      </nav>
+
+      <a href="calculadora.html" class="btn btn--nav nav__cta">Iniciar Diagnóstico</a>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- Hero -->
+    <section class="hero" id="escritorio">
+      <video class="hero__video" autoplay muted loop playsinline aria-hidden="true">
+        <source src="assets/images/lamy-video.mp4" type="video/mp4">
+      </video>
+      <div class="hero__content">
+        <h1 class="hero__title">
+          Decisões jurídicas que impactam<br>
+          diretamente o <span class="hero__title-highlight">resultado da sua empresa</span>
+        </h1>
+        <p class="hero__subtitle">Atuação voltada à redução de custos tributários, organização empresarial e decisões mais seguras para o crescimento do negócio.</p>
+        <div class="hero__actions">
+          <a href="#formulario" class="btn btn--primary">Calcule o que sua empresa pode recuperar</a>
+          <a href="#formulario" class="btn btn--outline">Falar com um especialista</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Marquee Orange -->
+    <div class="marquee marquee--orange marquee--empty" aria-hidden="true"></div>
+
+    <!-- Segmentos -->
+    <section class="segmentos" id="segmentos">
+      <div class="segmentos__inner">
+        <div class="segmentos__header">
+          <div class="segmentos__intro">
+            <h2 class="segmentos__title">Atuação em diferentes segmentos empresariais</h2>
+            <p class="segmentos__subtitle">Atuação voltada exclusivamente a empresas, com foco em organização tributária e estrutura jurídica.</p>
+          </div>
+          <div class="segmentos__label">
+            <span class="segmentos__label-text">Nossos segmentos</span>
+            <span class="segmentos__label-line" aria-hidden="true"></span>
+          </div>
+        </div>
+
+        <div class="segmentos__grid">
+          <article class="segment-card--featured">
+            <img class="segment-card__mark" src="assets/images/Vector-2.svg" alt="" width="67" height="15" aria-hidden="true">
+            <div class="segment-card__content">
+              <h3 class="segment-card__title">
+                Empresas que vendem<br>
+                em <span class="segment-card__title-accent">marketplace</span>
+              </h3>
+              <p class="segment-card__desc">Plataformas como Mercado Livre, Amazon e Shopee. Redução de tributos, recuperação de valores e organização da operação digital.</p>
+            </div>
+          </article>
+
+          <article class="glass-card segment-card segment-card--ecommerce">
+            <div class="glass-card__icon"><img src="assets/images/Icon-221-navy.svg" alt="" width="24" height="24"></div>
+            <h3 class="glass-card__title">Ecommerce</h3>
+            <p class="glass-card__desc">Operação própria de vendas online. Estruturação e revisão tributária.</p>
+          </article>
+
+          <article class="glass-card segment-card segment-card--row2">
+            <div class="glass-card__icon"><img src="assets/images/Icon-2.svg" alt="" width="24" height="24"></div>
+            <h3 class="glass-card__title">Indústria</h3>
+            <p class="glass-card__desc">Operação com impacto tributário direto nos custos. Revisão fiscal e estrutura empresarial.</p>
+          </article>
+
+          <article class="glass-card segment-card segment-card--row2">
+            <div class="glass-card__icon"><img src="assets/images/Icon-3.svg" alt="" width="24" height="24"></div>
+            <h3 class="glass-card__title">Transportadoras e logística</h3>
+            <p class="glass-card__desc">Operação contínua com complexidade tributária. Ajuste de enquadramento e redução de carga.</p>
+          </article>
+
+          <article class="glass-card segment-card segment-card--row2">
+            <div class="glass-card__icon"><img src="assets/images/Icon.svg" alt="" width="24" height="24"></div>
+            <h3 class="glass-card__title">Comércio, varejo e atacado</h3>
+            <p class="glass-card__desc">Alto volume de vendas e operação ativa. Recuperação tributária e organização fiscal.</p>
+          </article>
+
+          <article class="glass-card segment-card segment-card--row3">
+            <div class="glass-card__icon"><img src="assets/images/Vector.svg" alt="" width="24" height="24"></div>
+            <h3 class="glass-card__title">Distribuição</h3>
+            <p class="glass-card__desc">Cadeias com múltiplos regimes. Otimização e estruturação tributária.</p>
+          </article>
+
+          <article class="glass-card segment-card segment-card--row3">
+            <div class="glass-card__icon"><img src="assets/images/Vector-1.svg" alt="" width="24" height="24"></div>
+            <h3 class="glass-card__title">Empresas em crescimento</h3>
+            <p class="glass-card__desc">Negócios em expansão. Organização jurídica e planejamento.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Faixa azul — segmentos -->
+    <div class="segmentos-pills">
+      <div class="segmentos-pills__inner">
+        <span class="segmentos-pills__item">
+          <img class="segmentos-pills__icon" src="assets/images/Icon-221.svg" alt="" width="12" height="15">
+          Recuperação tributária
+        </span>
+        <span class="segmentos-pills__item">
+          <img class="segmentos-pills__icon" src="assets/images/Icon-12.svg" alt="" width="12" height="15">
+          Redução de carga fiscal
+        </span>
+        <span class="segmentos-pills__item">
+          <img class="segmentos-pills__icon" src="assets/images/icons43.svg" alt="" width="14" height="14">
+          Estruturação de empresas
+        </span>
+        <span class="segmentos-pills__item">
+          <img class="segmentos-pills__icon" src="assets/images/vector5321.svg" alt="" width="14" height="17">
+          Organização de contratos
+        </span>
+      </div>
+    </div>
+
+    <!-- Equipe -->
+    <section class="equipe" id="equipe">
+      <div class="equipe__inner">
+        <div class="equipe__header">
+          <h2 class="equipe__title">Quem atua no seu negócio</h2>
+          <div class="equipe__label">
+            <span class="equipe__label-text">Nosso time</span>
+            <span class="equipe__label-line" aria-hidden="true"></span>
+          </div>
+        </div>
+
+        <div class="equipe__carousel-wrap">
+          <button class="equipe__nav equipe__nav--prev" id="team-prev" type="button" aria-label="Equipe anterior">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+
+          <div class="equipe__carousel" id="team-carousel">
+            <article class="team-card">
+              <img class="team-card__photo" src="assets/images/lucas.jpg" alt="Lucas Lamy" loading="lazy">
+              <h3 class="team-card__name">Lucas Lamy</h3>
+              <p class="team-card__role">SÓCIO</p>
+              <div class="team-card__body">
+                <p class="team-card__bio">Graduado em Direito na Universidade Federal do Paraná. Pós-graduado em Direito Tributário pela FAE Business School. Especialista em Tributação de Fusões e Aquisições pelo Insper. Premiado com o título de Melhor Memorial da Fazenda Pública no IV Tax Moot Brazil. Membro da Comissão de Direito</p>
+                <button type="button" class="team-card__toggle" aria-expanded="false" aria-label="Saiba mais sobre Lucas Lamy">
+                  <span class="team-card__toggle-text">SAIBA MAIS</span>
+                  <svg class="team-card__toggle-icon" viewBox="0 0 12 8" fill="none" aria-hidden="true"><path d="M1 1l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </button>
+              </div>
+            </article>
+            <article class="team-card">
+              <img class="team-card__photo" src="assets/images/matheus.jpg" alt="Matheus Lamy" loading="lazy">
+              <h3 class="team-card__name">Matheus Lamy</h3>
+              <p class="team-card__role">SÓCIO</p>
+              <div class="team-card__body">
+                <p class="team-card__bio">Graduado em Direito na Universidade Positivo. Pós-graduado em Direito Empresarial com ênfase em Recuperações Judiciais e Falências pela PUC-RS. Membro da Comissão de Direito Tributário da OAB/PR. Lidera os departamentos Empresarial e Comercial do escritório Lamy</p>
+                <button type="button" class="team-card__toggle" aria-expanded="false" aria-label="Saiba mais sobre Matheus Lamy">
+                  <span class="team-card__toggle-text">SAIBA MAIS</span>
+                  <svg class="team-card__toggle-icon" viewBox="0 0 12 8" fill="none" aria-hidden="true"><path d="M1 1l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </button>
+              </div>
+            </article>
+            <article class="team-card">
+              <img class="team-card__photo" src="assets/images/bruno.jpg" alt="Bruno Sdoukos" loading="lazy">
+              <h3 class="team-card__name">Bruno Sdoukos</h3>
+              <p class="team-card__role">GERENTE DO CONSULTIVO TRIBUTÁRIO</p>
+              <div class="team-card__body">
+                <p class="team-card__bio">Graduando em Direito pela Universidade Positivo. Membro do Clube de Estudos Tributários da Universidade Positivo. Profissional atuante no setor tributário há mais de cinco anos.<span class="team-card__languages"><span class="team-card__languages-label">Idiomas:</span> Português (nativo) e Inglês (fluente).</span></p>
+                <button type="button" class="team-card__toggle" aria-expanded="false" aria-label="Saiba mais sobre Bruno Sdoukos">
+                  <span class="team-card__toggle-text">SAIBA MAIS</span>
+                  <svg class="team-card__toggle-icon" viewBox="0 0 12 8" fill="none" aria-hidden="true"><path d="M1 1l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </button>
+              </div>
+            </article>
+            <article class="team-card">
+              <img class="team-card__photo" src="assets/images/helena.jpg" alt="Helena Lafay" loading="lazy">
+              <h3 class="team-card__name">Helena Lafay</h3>
+              <p class="team-card__role">ESTAGIÁRIA DO CONSULTIVO TRIBUTÁRIO</p>
+              <div class="team-card__body">
+                <p class="team-card__bio">Graduanda em Direito na FAE Business School e premiada entre as melhores alunas da instituição em 2025/2. Membro do grupo de estudos Tax Moot CARF 2026 pela FAE Business School. Vencedora do Open Pitch na Semana de Empreendedorismo FAE 2025.</p>
+                <button type="button" class="team-card__toggle" aria-expanded="false" aria-label="Saiba mais sobre Helena Lafay">
+                  <span class="team-card__toggle-text">SAIBA MAIS</span>
+                  <svg class="team-card__toggle-icon" viewBox="0 0 12 8" fill="none" aria-hidden="true"><path d="M1 1l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </button>
+              </div>
+            </article>
+            <article class="team-card">
+              <img class="team-card__photo" src="assets/images/isabelle.jpg" alt="Isabelle Kramer" loading="lazy">
+              <h3 class="team-card__name">Isabelle Kramer</h3>
+              <p class="team-card__role">ADVOGADA DO CONTENCIOSO TRIBUTÁRIO</p>
+              <div class="team-card__body">
+                <p class="team-card__bio">Graduada em Direito pelo Centro Universitário Curitiba (UNICURITIBA). Pós-graduanda em Direito Público pela Pontifícia Universidade Católica do Rio Grande do Sul (PUCRS). Membro do grupo de estudos Tax Moot CARF da FAE Business School. Membro da Comissão de Direito</p>
+                <button type="button" class="team-card__toggle" aria-expanded="false" aria-label="Saiba mais sobre Isabelle Kramer">
+                  <span class="team-card__toggle-text">SAIBA MAIS</span>
+                  <svg class="team-card__toggle-icon" viewBox="0 0 12 8" fill="none" aria-hidden="true"><path d="M1 1l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </button>
+              </div>
+            </article>
+            <article class="team-card">
+              <img class="team-card__photo" src="assets/images/kerollen.jpg" alt="Bruno Peixoto" loading="lazy">
+              <h3 class="team-card__name">Bruno Peixoto</h3>
+              <p class="team-card__role">CONSULTOR COMERCIAL</p>
+              <div class="team-card__body">
+                <p class="team-card__bio">Graduando na Faculdade de Direito de Curitiba (Unicuritiba), formação complementar em Harvard Law School no tema "Justice - Law and Political Philosophy", turma 2024.<span class="team-card__languages"><span class="team-card__languages-label">Idiomas:</span> Português (nativo) e Inglês (fluente).</span></p>
+                <button type="button" class="team-card__toggle" aria-expanded="false" aria-label="Saiba mais sobre Bruno Peixoto">
+                  <span class="team-card__toggle-text">SAIBA MAIS</span>
+                  <svg class="team-card__toggle-icon" viewBox="0 0 12 8" fill="none" aria-hidden="true"><path d="M1 1l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </button>
+              </div>
+            </article>
+          </div>
+
+          <button class="equipe__nav equipe__nav--next" id="team-next" type="button" aria-label="Próxima equipe">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+
+        <div class="equipe__cta">
+          <a href="#formulario" class="btn btn--navy">Falar com um especialista</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Insights -->
+    <section class="insights" id="insights">
+      <div class="insights__inner">
+        <div class="insights__header">
+          <h2 class="insights__title">Insights Jurídicos</h2>
+          <a href="artigos.html" class="insights__link">
+            Ver todas as análises
+            <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="#000A4A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
+
+        <div class="insights__divider" aria-hidden="true"></div>
+
+        <div class="insights__grid">
+          <article class="article-card">
+            <img class="article-card__image" src="assets/site-home/artigo1.png" alt="Dashboard tributário em tablet" loading="lazy">
+            <p class="article-card__meta">Tributário • 5 min leitura</p>
+            <h3 class="article-card__title">A Reforma Tributária e o impacto no Cashback de impostos para empresas.</h3>
+            <p class="article-card__excerpt">Como as novas alíquotas do IVA podem ser compensadas através de créditos acumulados no sistema anterior.</p>
+          </article>
+          <article class="article-card">
+            <img class="article-card__image" src="assets/site-home/artigo3.png" alt="Servidor de dados e tecnologia" loading="lazy">
+            <p class="article-card__meta">Tecnologia • 8 min leitura</p>
+            <h3 class="article-card__title">LGPD e o tratamento de dados em plataformas de Marketplace.</h3>
+            <p class="article-card__excerpt">Entenda os novos limites da responsabilidade solidária entre vendedores e gateways de pagamento.</p>
+          </article>
+          <article class="article-card">
+            <img class="article-card__image" src="assets/site-home/artigo2.png" alt="Caneta sobre documento jurídico" loading="lazy">
+            <p class="article-card__meta">Jurisprudência • 12 min leitura</p>
+            <h3 class="article-card__title">A exclusão do ICMS da base de cálculo do PIS/COFINS: O que mudou em 2024?</h3>
+            <p class="article-card__excerpt">Análise detalhada sobre as recentes decisões do STF que impactam o planejamento fiscal das indústrias.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="faq" id="faq">
+      <div class="faq__inner">
+        <h2 class="section-title section-title--navy section-title--center">Perguntas Frequentes</h2>
+        <div class="faq__list">
+          <details class="faq-item" open>
+            <summary>
+              Minha empresa pode recuperar tributos pagos indevidamente?
+              <svg class="faq-item__chevron" viewBox="0 0 12 8" fill="none"><path d="M1 1l5 5 5-5" stroke="#070235" stroke-width="1.5"/></svg>
+            </summary>
+            <p class="faq-item__answer">Basta preencher as informações iniciais na calculadora disponível no site ou entrar em contato diretamente com o escritório.</p>
+          </details>
+          <details class="faq-item">
+            <summary>
+              Como saber se minha empresa paga mais tributos do que deveria?
+              <svg class="faq-item__chevron" viewBox="0 0 12 8" fill="none"><path d="M1 1l5 5 5-5" stroke="#070235" stroke-width="1.5"/></svg>
+            </summary>
+            <p class="faq-item__answer">Uma análise tributária identifica oportunidades de redução de carga e recuperação de valores pagos indevidamente.</p>
+          </details>
+          <details class="faq-item">
+            <summary>
+              Empresas do Simples Nacional também podem recuperar tributos?
+              <svg class="faq-item__chevron" viewBox="0 0 12 8" fill="none"><path d="M1 1l5 5 5-5" stroke="#070235" stroke-width="1.5"/></svg>
+            </summary>
+            <p class="faq-item__answer">Sim, dependendo do regime e da operação, empresas do Simples podem ter direito a créditos e revisões tributárias.</p>
+          </details>
+          <details class="faq-item">
+            <summary>
+              Empresas que vendem em marketplace possuem tributação diferente?
+              <svg class="faq-item__chevron" viewBox="0 0 12 8" fill="none"><path d="M1 1l5 5 5-5" stroke="#070235" stroke-width="1.5"/></svg>
+            </summary>
+            <p class="faq-item__answer">Sim, a tributação em marketplaces envolve particularidades que exigem planejamento específico.</p>
+          </details>
+          <details class="faq-item">
+            <summary>
+              Minha empresa vende em marketplace. Isso aumenta a complexidade tributária?
+              <svg class="faq-item__chevron" viewBox="0 0 12 8" fill="none"><path d="M1 1l5 5 5-5" stroke="#070235" stroke-width="1.5"/></svg>
+            </summary>
+            <p class="faq-item__answer">Sim, a operação digital acrescenta camadas de complexidade fiscal que merecem revisão periódica.</p>
+          </details>
+          <details class="faq-item">
+            <summary>
+              O que é recuperação tributária?
+              <svg class="faq-item__chevron" viewBox="0 0 12 8" fill="none"><path d="M1 1l5 5 5-5" stroke="#070235" stroke-width="1.5"/></svg>
+            </summary>
+            <p class="faq-item__answer">É o processo de identificar e reaver tributos pagos a maior ou indevidamente ao longo do tempo.</p>
+          </details>
+          <details class="faq-item">
+            <summary>
+              O escritório atua apenas com tributário?
+              <svg class="faq-item__chevron" viewBox="0 0 12 8" fill="none"><path d="M1 1l5 5 5-5" stroke="#070235" stroke-width="1.5"/></svg>
+            </summary>
+            <p class="faq-item__answer">O foco principal é tributário e empresarial, com atuação também em contratos e estruturação jurídica.</p>
+          </details>
+          <details class="faq-item">
+            <summary>
+              Quando uma empresa precisa revisar seus contratos?
+              <svg class="faq-item__chevron" viewBox="0 0 12 8" fill="none"><path d="M1 1l5 5 5-5" stroke="#070235" stroke-width="1.5"/></svg>
+            </summary>
+            <p class="faq-item__answer">Em mudanças de operação, crescimento, novos parceiros ou alterações regulatórias relevantes.</p>
+          </details>
+          <details class="faq-item">
+            <summary>
+              O Lamy atende apenas empresas?
+              <svg class="faq-item__chevron" viewBox="0 0 12 8" fill="none"><path d="M1 1l5 5 5-5" stroke="#070235" stroke-width="1.5"/></svg>
+            </summary>
+            <p class="faq-item__answer">Sim, a atuação é voltada exclusivamente a empresas e negócios.</p>
+          </details>
+          <details class="faq-item">
+            <summary>
+              Preciso trocar de contador para fazer uma análise tributária?
+              <svg class="faq-item__chevron" viewBox="0 0 12 8" fill="none"><path d="M1 1l5 5 5-5" stroke="#070235" stroke-width="1.5"/></svg>
+            </summary>
+            <p class="faq-item__answer">Não. O escritório atua de forma complementar à contabilidade existente.</p>
+          </details>
+          <details class="faq-item">
+            <summary>
+              O atendimento é apenas presencial?
+              <svg class="faq-item__chevron" viewBox="0 0 12 8" fill="none"><path d="M1 1l5 5 5-5" stroke="#070235" stroke-width="1.5"/></svg>
+            </summary>
+            <p class="faq-item__answer">Não. O atendimento pode ser presencial ou remoto, conforme a necessidade do cliente.</p>
+          </details>
+          <details class="faq-item">
+            <summary>
+              Como funciona o primeiro contato com o escritório?
+              <svg class="faq-item__chevron" viewBox="0 0 12 8" fill="none"><path d="M1 1l5 5 5-5" stroke="#070235" stroke-width="1.5"/></svg>
+            </summary>
+            <p class="faq-item__answer">Você pode iniciar pelo formulário, calculadora ou WhatsApp para uma conversa inicial.</p>
+          </details>
+          <details class="faq-item">
+            <summary>
+              Como iniciar um diagnóstico tributário?
+              <svg class="faq-item__chevron" viewBox="0 0 12 8" fill="none"><path d="M1 1l5 5 5-5" stroke="#070235" stroke-width="1.5"/></svg>
+            </summary>
+            <p class="faq-item__answer">Preencha a calculadora no site ou solicite contato com um especialista.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Final -->
+    <section class="cta-final">
+      <div class="cta-final__blur-left" aria-hidden="true"></div>
+      <div class="cta-final__blur-right" aria-hidden="true"></div>
+      <div class="cta-final__content">
+        <h2 class="cta-final__title">
+          Sua empresa pode estar pagando
+          <span class="cta-final__title-accent">mais<br>tributos do que deveria.</span>
+        </h2>
+        <p class="cta-final__subtitle">Entenda como reduzir custos e estruturar melhor o seu negócio.</p>
+        <div class="cta-final__actions">
+          <a href="#formulario" class="btn btn--cta-red">Falar com um especialista</a>
+          <a href="#formulario" class="btn btn--cta-white">Iniciar Diagnóstico Agora</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Formulário -->
+    <section class="cta-form" id="formulario">
+      <div class="cta-form__inner">
+        <form class="cta-form__form" id="contact-form" novalidate>
+          <div class="cta-form__fields">
+            <div class="form-group">
+              <input class="form-input" type="text" name="name" placeholder="Nome completo" required aria-label="Nome completo">
+            </div>
+            <div class="form-group">
+              <input class="form-input" type="email" name="email" placeholder="E-mail" required aria-label="E-mail">
+            </div>
+            <div class="form-group">
+              <input class="form-input" type="tel" name="phone" placeholder="Telefone" required aria-label="Telefone">
+            </div>
+          </div>
+          <div class="cta-form__checkboxes">
+            <label class="form-checkbox">
+              <input type="checkbox" name="contactConsent" required>
+              <span>Autorizo o contato por e-mail, telefone, WhatsApp ou outros canais informados neste formulário.</span>
+            </label>
+            <label class="form-checkbox">
+              <input type="checkbox" name="marketingConsent">
+              <span>Concordo em receber conteúdos, novidades e comunicações por e-mail, WhatsApp ou outros canais, de acordo com a LGPD.</span>
+            </label>
+          </div>
+          <button type="submit" class="cta-form__submit">Enviar</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- Contato -->
+    <section class="contato" id="contato">
+      <div class="contato__inner">
+        <div class="contato__info">
+          <h2 class="contato__title">Vamos desenhar a melhor estratégia jurídica para o seu negócio?</h2>
+          <div class="contato__items">
+            <div class="contato__item">
+              <img class="contato__item-icon" src="assets/images/Icon-12.svg" alt="" width="20" height="16" aria-hidden="true">
+              <div>
+                <p class="contato__item-label">E-mail</p>
+                <p class="contato__item-value"><a href="mailto:contato@lamy.adv.br">contato@lamy.adv.br</a></p>
+              </div>
+            </div>
+            <div class="contato__item">
+              <img class="contato__item-icon" src="assets/images/icons43.svg" alt="" width="15" height="22" aria-hidden="true">
+              <div>
+                <p class="contato__item-label">Telefone / WhatsApp</p>
+                <p class="contato__item-value"><a href="https://wa.me/5541998618931">(41) 99861-8931</a></p>
+              </div>
+            </div>
+            <div class="contato__item">
+              <img class="contato__item-icon" src="assets/images/Icon-1.svg" alt="" width="16" height="20" aria-hidden="true">
+              <div>
+                <p class="contato__item-label">Endereço</p>
+                <p class="contato__item-value">Av. Paulista, 1200 - 14º Andar, São Paulo - SP</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="contato__map">
+          <iframe
+            class="contato__map-frame"
+            title="Localização — Av. Paulista, 1200 - 14º Andar, São Paulo - SP"
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3657.197490294382!2d-46.653691875!3d-23.561414!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ce59c8da0f9e13%3A0x8b9d70ce0b0831d9!2sAv.%20Paulista%2C%201200%20-%20Bela%20Vista%2C%20S%C3%A3o%20Paulo%20-%20SP!5e0!3m2!1spt-BR!2sbr!4v1740000000000!5m2!1spt-BR!2sbr"
+            allowfullscreen=""
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+          ></iframe>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer__inner">
+      <div class="footer__brand">
+        <a href="#" class="footer__logo" aria-label="Lamy Advogados — Início">
+          <img src="assets/site-home/4f75435e2711bc520e1487fe1dfb689ab802bbbb%20(1).png" alt="Lamy Advogados" class="footer__logo-img">
+        </a>
+        <p class="footer__copyright">© 2024 Lamy Advogados. Todos os direitos reservados.</p>
+      </div>
+      <nav class="footer__links" aria-label="Links do rodapé">
+        <a href="#escritorio" class="footer__link">O Escritório</a>
+        <a href="#segmentos" class="footer__link">Segmentos</a>
+        <a href="#equipe" class="footer__link">Equipe</a>
+        <a href="#" class="footer__link">Área do Cliente</a>
+        <a href="#contato" class="footer__link">Contato</a>
+      </nav>
+    </div>
+  </footer>
+
+  <!-- WhatsApp -->
+  <a href="https://wa.me/5541998618931" class="whatsapp-btn" target="_blank" rel="noopener noreferrer" aria-label="Falar no WhatsApp">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.435 9.884-9.881 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+  </a>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

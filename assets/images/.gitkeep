@@ -1,0 +1,3 @@
+# Placeholder assets — replace with Framelink exports when Figma PAT is configured.
+# Run: get_figma_data(fileKey: QIUh0lcFs1OhXl6Sk24e3w, nodeId: 120:555)
+# Then: download_figma_images → localPath: assets/images
