@@ -24,7 +24,23 @@ function copyPath(from, to) {
     throw new Error(`Arquivo ou pasta não encontrado: ${from}`);
   }
 
-  fs.cpSync(source, target, { recursive: true });
+  fs.cpSync(source, target, {
+    recursive: true,
+    filter: (sourcePath) => path.basename(sourcePath) !== ".DS_Store",
+  });
+}
+
+function removeByName(directory, fileName) {
+  if (!fs.existsSync(directory)) return;
+
+  for (const entry of fs.readdirSync(directory, { withFileTypes: true })) {
+    const entryPath = path.join(directory, entry.name);
+    if (entry.name === fileName) {
+      fs.rmSync(entryPath, { force: true, recursive: true });
+    } else if (entry.isDirectory()) {
+      removeByName(entryPath, fileName);
+    }
+  }
 }
 
 fs.rmSync(publicDir, { recursive: true, force: true });
@@ -37,5 +53,7 @@ for (const [from, to] of copies) {
 for (const file of files) {
   copyPath(file, file);
 }
+
+removeByName(publicDir, ".DS_Store");
 
 console.log(`Arquivos públicos preparados em ${path.relative(rootDir, publicDir)}`);

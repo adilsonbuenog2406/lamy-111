@@ -14,14 +14,7 @@ function readJson(filePath) {
 }
 
 const config = readJson(vercelConfigPath);
-const outputDirectory = config.outputDirectory;
-const publicDir = outputDirectory
-  ? path.join(rootDir, outputDirectory)
-  : null;
-
-if (outputDirectory !== "public") {
-  fail('vercel.json precisa definir "outputDirectory": "public" para publicar CSS, JS e assets.');
-}
+const publicDir = path.join(rootDir, "public");
 
 const rewrites = Array.isArray(config.rewrites) ? config.rewrites : [];
 const apiCatchAllRewrite = rewrites.find((rewrite) => rewrite.source === "/api/:path*");
@@ -48,8 +41,8 @@ const requiredFiles = [
 ];
 
 for (const file of requiredFiles) {
-  const filePath = publicDir ? path.join(publicDir, file) : "";
-  if (!filePath || !fs.existsSync(filePath)) {
+  const filePath = path.join(publicDir, file);
+  if (!fs.existsSync(filePath)) {
     fail(`Arquivo obrigatório ausente no output da Vercel: public/${file}`);
   }
 }

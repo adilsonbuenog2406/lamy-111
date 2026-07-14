@@ -2,7 +2,7 @@
 
 Este projeto está preparado para rodar na Vercel com:
 
-- site estático servido a partir de `public/`;
+- site estático versionado e servido a partir de `public/`;
 - CMS Express rodando como Vercel Function em `api/index.js`;
 - persistência do CMS no Supabase, tabela `public.lamy_pages`;
 - captura da calculadora no Supabase, tabela `public.lamy_calculator_leads`;
@@ -67,7 +67,7 @@ A Vercel executa:
 npm run verify:vercel-output
 ```
 
-Esse comando gera `public/` com HTML, assets, CSS, JS, artigos, arquivos do admin e dependências do editor visual. Em seguida, valida se `vercel.json` está publicando `public/` como output estático.
+Esse comando gera/atualiza `public/` com HTML, assets, CSS, JS, artigos, arquivos do admin e dependências do editor visual. Em seguida, valida se os arquivos essenciais existem. A pasta `public/` deve ser commitada porque, em projetos Express na Vercel, os assets estáticos são servidos diretamente de `public/**`.
 
 ## 4. Deploy
 
