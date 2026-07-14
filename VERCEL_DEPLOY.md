@@ -100,7 +100,10 @@ npm run vercel-build
 Depois do deploy, acesse:
 
 ```text
+/api/health
 /admin/login
 ```
+
+`/api/health` deve retornar `ok: true`. Se retornar `ok: false`, confira no JSON se faltam variáveis (`hasUrl` ou `hasServiceRoleKey`) ou se alguma tabela ainda não foi criada.
 
 A calculadora envia snapshots para `/api/calculator-leads` durante o preenchimento. Leads abandonados ficam com `status = 'incomplete'`; leads que chegam ao resultado ficam com `status = 'complete'`.

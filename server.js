@@ -3,10 +3,9 @@ const path = require("path");
 
 require("dotenv").config();
 
-const createDOMPurify = require("dompurify");
 const express = require("express");
-const { JSDOM } = require("jsdom");
 
+const { normalizeCalculatorLeadPayload } = require("./lib/calculator-lead-payload");
 const { createCmsDb } = require("./lib/cms-db");
 
 const app = express();
@@ -18,23 +17,25 @@ const sessionSecret =
   process.env.SESSION_SECRET || crypto.randomBytes(32).toString("hex");
 const allowPageJs = process.env.CMS_ALLOW_PAGE_JS === "true";
 const db = createCmsDb({ rootDir });
-
-const purifierWindow = new JSDOM("").window;
-const DOMPurify = createDOMPurify(purifierWindow);
+const servesStaticFiles = process.env.VERCEL !== "1";
+let DOMPurify;
+let JSDOM;
 
 app.disable("x-powered-by");
 app.use(express.urlencoded({ extended: false, limit: "2mb" }));
 app.use(express.json({ limit: "20mb" }));
 
-app.use(
-  "/vendor/grapesjs",
-  express.static(path.join(rootDir, "node_modules/grapesjs/dist"))
-);
-app.use(
-  "/vendor/grapesjs-preset-webpage",
-  express.static(path.join(rootDir, "node_modules/grapesjs-preset-webpage/dist"))
-);
-app.use("/admin-assets", express.static(path.join(rootDir, "admin")));
+if (servesStaticFiles) {
+  app.use(
+    "/vendor/grapesjs",
+    express.static(path.join(rootDir, "node_modules/grapesjs/dist"))
+  );
+  app.use(
+    "/vendor/grapesjs-preset-webpage",
+    express.static(path.join(rootDir, "node_modules/grapesjs-preset-webpage/dist"))
+  );
+  app.use("/admin-assets", express.static(path.join(rootDir, "admin")));
+}
 
 function asyncHandler(handler) {
   return (req, res, next) => {
@@ -126,76 +127,24 @@ function jsonForScript(value) {
   return JSON.stringify(value).replaceAll("<", "\\u003c");
 }
 
+function getJSDOM() {
+  if (!JSDOM) {
+    ({ JSDOM } = require("jsdom"));
+  }
+  return JSDOM;
+}
+
+function getDOMPurify() {
+  if (!DOMPurify) {
+    const createDOMPurify = require("dompurify");
+    const purifierWindow = new (getJSDOM())("").window;
+    DOMPurify = createDOMPurify(purifierWindow);
+  }
+  return DOMPurify;
+}
+
 function nowIso() {
   return new Date().toISOString();
-}
-
-function digitsOnly(value) {
-  return String(value || "").replace(/\D/g, "");
-}
-
-function parseCurrency(value) {
-  const digits = digitsOnly(value);
-  if (!digits) return null;
-  return Number(digits) / 100;
-}
-
-function parseLeadId(value) {
-  const id = String(value || "").trim();
-  return /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(id)
-    ? id
-    : crypto.randomUUID();
-}
-
-function parseStep(value) {
-  const step = Number(value);
-  if (Number.isInteger(step) && step >= 1 && step <= 3) return step;
-  return 1;
-}
-
-function parseLeadStatus(value) {
-  return value === "complete" ? "complete" : "incomplete";
-}
-
-function parseNullableString(value, maxLength = 500) {
-  const text = String(value || "").trim();
-  if (!text) return null;
-  return text.slice(0, maxLength);
-}
-
-function normalizeCalculatorLeadPayload(req) {
-  const body = req.body || {};
-  const data = body.data && typeof body.data === "object" ? body.data : {};
-  const currentStep = parseStep(body.step || data.step);
-  const status = parseLeadStatus(body.status);
-  const rbt12Value = parseCurrency(data.rbt12);
-  const vehicleValueNumeric = parseCurrency(data.vehicleValue);
-  const estimatedSavings = parseCurrency(body.estimatedSavings);
-
-  return {
-    id: parseLeadId(body.leadId),
-    status,
-    current_step: currentStep,
-    completed_at: status === "complete" ? nowIso() : null,
-    segment: parseNullableString(data.segment, 120),
-    segment_label: parseNullableString(data.segmentLabel, 180),
-    email: parseNullableString(data.email, 254),
-    phone: parseNullableString(data.phone, 40),
-    cnpj: parseNullableString(data.cnpj, 30),
-    contact_consent: Boolean(data.contactConsent),
-    marketing_consent: Boolean(data.marketingConsent),
-    rbt12: parseNullableString(data.rbt12, 60),
-    rbt12_value: rbt12Value,
-    vehicle_value: parseNullableString(data.vehicleValue, 60),
-    vehicle_value_numeric: vehicleValueNumeric,
-    simples: data.simples === "sim" || data.simples === "nao" ? data.simples : null,
-    estimated_savings: estimatedSavings,
-    page_url: parseNullableString(body.pageUrl, 1000),
-    referrer: parseNullableString(body.referrer, 1000),
-    user_agent: parseNullableString(req.get("user-agent"), 1000),
-    raw_payload: body,
-    updated_at: nowIso(),
-  };
 }
 
 function normalizeSlug(value) {
@@ -264,7 +213,7 @@ function normalizePageHtml(html) {
   if (!value) return "";
   if (!/<\/?(html|head|body)[\s>]/i.test(value)) return value;
 
-  const dom = new JSDOM(value);
+  const dom = new (getJSDOM())(value);
   return dom.window.document.body.innerHTML.trim();
 }
 
@@ -291,7 +240,7 @@ function safeAdminNext(value) {
 }
 
 function sanitizePublicHtml(html) {
-  return DOMPurify.sanitize(html || "", {
+  return getDOMPurify().sanitize(html || "", {
     USE_PROFILES: { html: true },
     ADD_TAGS: ["section", "main", "picture", "source", "details", "summary"],
     ADD_ATTR: [
@@ -450,7 +399,10 @@ app.get("/api/health", asyncHandler(async (_req, res) => {
 }));
 
 app.post("/api/calculator-leads", asyncHandler(async (req, res) => {
-  const lead = normalizeCalculatorLeadPayload(req);
+  const lead = normalizeCalculatorLeadPayload({
+    body: req.body,
+    userAgent: req.get("user-agent"),
+  });
   const saved = await db.upsertCalculatorLead(lead);
   res.json({ ok: true, leadId: saved.id, status: saved.status });
 }));
@@ -631,10 +583,12 @@ app.post("/admin/api/pages/:id/publish", requireAuth, asyncHandler(async (req, r
   res.json(pageFromRow(await db.getPageById(req.params.id)));
 }));
 
-app.use("/assets", express.static(path.join(rootDir, "assets")));
-app.use("/css", express.static(path.join(rootDir, "css")));
-app.use("/js", express.static(path.join(rootDir, "js")));
-app.use("/artigos", express.static(path.join(rootDir, "artigos")));
+if (servesStaticFiles) {
+  app.use("/assets", express.static(path.join(rootDir, "assets")));
+  app.use("/css", express.static(path.join(rootDir, "css")));
+  app.use("/js", express.static(path.join(rootDir, "js")));
+  app.use("/artigos", express.static(path.join(rootDir, "artigos")));
+}
 
 app.get("/", (_req, res) => {
   res.sendFile(path.join(rootDir, "index.html"));
