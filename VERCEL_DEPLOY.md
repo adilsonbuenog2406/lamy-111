@@ -64,10 +64,10 @@ Se preferir, copie o SQL da migration e execute no SQL Editor do Supabase.
 A Vercel executa:
 
 ```bash
-npm run vercel-build
+npm run verify:vercel-output
 ```
 
-Esse comando gera `public/` com HTML, assets, CSS, JS, artigos, arquivos do admin e dependências do editor visual.
+Esse comando gera `public/` com HTML, assets, CSS, JS, artigos, arquivos do admin e dependências do editor visual. Em seguida, valida se `vercel.json` está publicando `public/` como output estático.
 
 ## 4. Deploy
 
@@ -94,7 +94,7 @@ Isso importa as páginas HTML existentes como rascunhos no CMS.
 
 ```bash
 npm run check
-npm run vercel-build
+npm run verify:vercel-output
 ```
 
 Depois do deploy, acesse:
