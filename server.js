@@ -416,6 +416,39 @@ app.post("/admin/logout", requireAuth, (req, res) => {
   res.redirect("/admin/login");
 });
 
+app.get("/api/health", asyncHandler(async (_req, res) => {
+  const env = db.getHealth();
+  const health = {
+    ok: env.ok,
+    database: db.kind,
+    env,
+    tables: {
+      pages: "unknown",
+      calculatorLeads: "unknown",
+    },
+  };
+
+  if (env.ok) {
+    try {
+      await db.listPages();
+      health.tables.pages = "ok";
+    } catch (error) {
+      health.ok = false;
+      health.tables.pages = error.code || error.message;
+    }
+
+    try {
+      await db.checkCalculatorLeadsTable();
+      health.tables.calculatorLeads = "ok";
+    } catch (error) {
+      health.ok = false;
+      health.tables.calculatorLeads = error.code || error.message;
+    }
+  }
+
+  res.status(health.ok ? 200 : 500).json(health);
+}));
+
 app.post("/api/calculator-leads", asyncHandler(async (req, res) => {
   const lead = normalizeCalculatorLeadPayload(req);
   const saved = await db.upsertCalculatorLead(lead);
