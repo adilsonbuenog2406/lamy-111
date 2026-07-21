@@ -19,9 +19,9 @@ const pagesToImport = [
     slug: "desafios-regulatorios-era-digital",
   },
   {
-    file: "artigos/ia-governanca-corporativa.html",
-    title: "IA e Governança Corporativa",
-    slug: "ia-governanca-corporativa",
+    file: "artigos/exclusao-icms-difal-pis-cofins.html",
+    title: "Exclusão do ICMS-DIFAL do PIS e da COFINS",
+    slug: "exclusao-icms-difal-pis-cofins",
   },
   {
     file: "artigos/liquidity-events-ma-2024.html",
@@ -29,9 +29,9 @@ const pagesToImport = [
     slug: "liquidity-events-ma-2024",
   },
   {
-    file: "artigos/reforma-tributaria-tecnologia.html",
-    title: "Reforma Tributária para Tecnologia",
-    slug: "reforma-tributaria-tecnologia",
+    file: "artigos/transacao-tributaria-debitos-posteriores.html",
+    title: "TRF3 afasta vedação da Portaria nº 6.757/22 da PGFN",
+    slug: "transacao-tributaria-debitos-posteriores",
   },
 ];
 

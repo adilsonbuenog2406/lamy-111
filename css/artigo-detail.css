@@ -116,6 +116,22 @@
   margin-bottom: 24px;
 }
 
+.artigo-detail__content blockquote {
+  margin: 0 0 24px;
+  padding: 20px 24px;
+  border-left: 3px solid var(--color-red);
+  background: rgba(0, 10, 74, 0.04);
+}
+
+.artigo-detail__content blockquote p {
+  margin-bottom: 16px;
+  font-style: italic;
+}
+
+.artigo-detail__content blockquote p:last-child {
+  margin-bottom: 0;
+}
+
 .artigo-detail__content p:last-child {
   margin-bottom: 0;
 }

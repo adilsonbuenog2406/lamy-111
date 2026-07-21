@@ -9,7 +9,9 @@
   "scripts": {
     "start": "node server.js",
     "dev": "node server.js",
-    "check": "node --check server.js && node --check lib/cms-db.js && node --check lib/calculator-lead-payload.js && node --check api/index.js && node --check api/health.js && node --check api/calculator-leads.js && node --check scripts/prepare-vercel-public.js && node --check scripts/check-vercel-static-output.js && node --check scripts/import-static-pages.js",
+    "build": "node scripts/build-static.js",
+    "build:static": "node scripts/build-static.js",
+    "check": "node --check server.js && node --check lib/cms-db.js && node --check lib/calculator-lead-payload.js && node --check api/index.js && node --check api/health.js && node --check api/calculator-leads.js && node --check scripts/prepare-vercel-public.js && node --check scripts/check-vercel-static-output.js && node --check scripts/import-static-pages.js && node --check scripts/build-static.js",
     "vercel-build": "node scripts/prepare-vercel-public.js",
     "verify:vercel-output": "npm run vercel-build && node scripts/check-vercel-static-output.js",
     "db:push": "supabase db push",
