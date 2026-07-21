@@ -16,8 +16,32 @@
   const SEGMENT_LABELS = {
     "veiculos-usados": "Lojas de veículos usados",
     "clinicas-medicas-odontologica": "Clínicas médicas odontológica",
+    "ecommerce-e-outros": "Ecommerce e Outros",
+  };
+
+  const ECOMMERCE_SEGMENT_LABELS = {
+    "alimentos-e-bebidas": "Alimentos e bebidas",
+    autopecas: "Autopeças",
+    cigarros: "Cigarros",
+    combustiveis: "Combustíveis",
+    "eletronicos-e-eletrodomesticos": "Eletrônicos e eletrodomésticos",
+    ferramentas: "Ferramentas",
+    "material-de-construcao": "Material de construção",
+    "material-de-limpeza": "Material de limpeza",
+    "material-eletrico": "Material elétrico",
+    medicamentos: "Medicamentos",
+    papelaria: "Papelaria",
+    pneumaticos: "Pneumáticos",
+    "utilidades-domesticas": "Utilidades domésticas",
+    "perfumaria-higiene-cosmeticos": "Perfumaria, higiene pessoal e cosméticos",
+    racoes: "Rações",
+    sorvetes: "Sorvetes",
+    "servicos-em-geral": "Serviços em geral",
+    "tintas-e-vernizes": "Tintas e vernizes",
     outros: "Outros",
   };
+
+  const ECOMMERCE_SEGMENT = "ecommerce-e-outros";
 
   const STEP_CONFIG = {
     1: { progress: 33.3, stepLabel: "Etapa 1 de 3", percentLabel: "33,3% concluído" },
@@ -63,6 +87,10 @@
     }
   }
 
+  function isEcommerceFlow(segment = state.data.segment) {
+    return segment === ECOMMERCE_SEGMENT;
+  }
+
   function digitsOnly(value) {
     return value.replace(/\D/g, "");
   }
@@ -101,6 +129,7 @@
 
   function readFormData() {
     const segment = form.querySelector("#segment")?.value || "";
+    const ecommerceSegment = form.querySelector("#ecommerceSegment")?.value || "";
     return {
       segment,
       segmentLabel: SEGMENT_LABELS[segment] || "",
@@ -112,6 +141,13 @@
       rbt12: form.querySelector("#rbt12")?.value.trim() || "",
       vehicleValue: form.querySelector("#vehicleValue")?.value.trim() || "",
       simples: form.querySelector("#simples")?.value || "",
+      regime: form.querySelector("#regime")?.value.trim() || "",
+      regimeTime: form.querySelector("#regimeTime")?.value.trim() || "",
+      ecommerceSegment,
+      ecommerceSegmentLabel: ECOMMERCE_SEGMENT_LABELS[ecommerceSegment] || "",
+      monthlyRevenue: form.querySelector("#monthlyRevenue")?.value.trim() || "",
+      companyAge: form.querySelector("#companyAge")?.value.trim() || "",
+      taxRecovery: form.querySelector("#taxRecovery")?.value.trim() || "",
     };
   }
 
@@ -197,16 +233,22 @@
   }
 
   function getActivePanel() {
-    return form.querySelector(`.calculadora-form__panel[data-panel="${state.step}"]`);
+    if (state.step !== 2) {
+      return form.querySelector(`.calculadora-form__panel[data-panel="${state.step}"]`);
+    }
+    const flow = isEcommerceFlow() ? "ecommerce" : "default";
+    return form.querySelector(`.calculadora-form__panel[data-panel="2"][data-flow="${flow}"]`);
   }
 
   function goToStep(step, options = {}) {
     state.step = step;
     const config = STEP_CONFIG[step];
+    const ecommerce = isEcommerceFlow();
 
     form.dataset.step = String(step);
+    form.dataset.flow = ecommerce ? "ecommerce" : "default";
     form.style.setProperty("--progress", `${config.progress}%`);
-    form.classList.toggle("calculadora-form--compact", step === 2);
+    form.classList.toggle("calculadora-form--compact", step === 2 && !ecommerce);
     form.classList.toggle("calculadora-form--result", step === 3);
     document.body.classList.toggle("calculadora-result-active", step === 3);
     innerEl?.classList.toggle("calculadora__inner--result", step === 3);
@@ -221,7 +263,14 @@
     }
 
     panels.forEach((panel) => {
-      const isActive = panel.dataset.panel === String(step);
+      const panelStep = panel.dataset.panel;
+      let isActive = panelStep === String(step);
+
+      if (step === 2 && panelStep === "2") {
+        const flow = panel.dataset.flow || "default";
+        isActive = ecommerce ? flow === "ecommerce" : flow === "default";
+      }
+
       panel.hidden = !isActive;
       panel.setAttribute("aria-hidden", String(!isActive));
     });
@@ -250,6 +299,13 @@
   }
 
   function calculate(data) {
+    if (isEcommerceFlow(data.segment)) {
+      const monthly = parseCurrency(data.monthlyRevenue);
+      const rbt12 = monthly * 12;
+      const base = Math.max(rbt12 * 0.2, 0);
+      return Math.max(Math.min(base, 220000), 220000);
+    }
+
     const rbt12 = parseCurrency(data.rbt12);
     const veiculos = parseCurrency(data.vehicleValue);
     const base = Math.max(rbt12 - veiculos, rbt12 * 0.2, 0);
@@ -315,7 +371,7 @@
     return valid;
   }
 
-  function validateStep2() {
+  function validateStep2Default() {
     let valid = true;
     const rbt12Field = form.querySelector("#rbt12");
     const vehicleValueField = form.querySelector("#vehicleValue");
@@ -348,6 +404,72 @@
     return true;
   }
 
+  function validateStep2Ecommerce() {
+    let valid = true;
+    const regimeField = form.querySelector("#regime");
+    const regimeTimeField = form.querySelector("#regimeTime");
+    const ecommerceSegmentField = form.querySelector("#ecommerceSegment");
+    const monthlyRevenueField = form.querySelector("#monthlyRevenue");
+    const companyAgeField = form.querySelector("#companyAge");
+    const taxRecoveryField = form.querySelector("#taxRecovery");
+
+    const fields = [
+      regimeField,
+      regimeTimeField,
+      ecommerceSegmentField,
+      monthlyRevenueField,
+      companyAgeField,
+      taxRecoveryField,
+    ];
+
+    fields.forEach((field) => clearFieldError(field));
+
+    if (!regimeField.value.trim()) {
+      valid = false;
+      setFieldError(regimeField, "Informe o regime.");
+    }
+
+    if (!regimeTimeField.value.trim()) {
+      valid = false;
+      setFieldError(regimeTimeField, "Informe o tempo no regime.");
+    }
+
+    if (!ecommerceSegmentField.value) {
+      valid = false;
+      setFieldError(ecommerceSegmentField, "Selecione um segmento.");
+    }
+
+    if (!monthlyRevenueField.value.trim() || parseCurrency(monthlyRevenueField.value) <= 0) {
+      valid = false;
+      setFieldError(monthlyRevenueField, "Informe a média de faturamento mensal.");
+    }
+
+    if (!companyAgeField.value.trim()) {
+      valid = false;
+      setFieldError(companyAgeField, "Informe a idade da empresa.");
+    }
+
+    if (!taxRecoveryField.value.trim()) {
+      valid = false;
+      setFieldError(taxRecoveryField, "Informe se já fez recuperação tributária.");
+    }
+
+    if (!valid) return false;
+
+    state.data.regime = regimeField.value.trim();
+    state.data.regimeTime = regimeTimeField.value.trim();
+    state.data.ecommerceSegment = ecommerceSegmentField.value;
+    state.data.ecommerceSegmentLabel = ECOMMERCE_SEGMENT_LABELS[ecommerceSegmentField.value] || "";
+    state.data.monthlyRevenue = monthlyRevenueField.value.trim();
+    state.data.companyAge = companyAgeField.value.trim();
+    state.data.taxRecovery = taxRecoveryField.value.trim();
+    return true;
+  }
+
+  function validateStep2() {
+    return isEcommerceFlow() ? validateStep2Ecommerce() : validateStep2Default();
+  }
+
   function validateCurrentStep() {
     if (state.step === 1) return validateStep1();
     if (state.step === 2) return validateStep2();
@@ -358,13 +480,6 @@
     if (state.step === 1) return 2;
     if (state.step === 2) return 3;
     return 3;
-  }
-
-  function resetWizard() {
-    state.step = 1;
-    state.data = {};
-    form.reset();
-    goToStep(1);
   }
 
   const phoneInput = form.querySelector("#phone");
@@ -383,17 +498,21 @@
     });
   }
 
-  form.querySelectorAll("#rbt12, #vehicleValue").forEach((currencyInput) => {
+  form.querySelectorAll("#rbt12, #vehicleValue, #monthlyRevenue").forEach((currencyInput) => {
     currencyInput.addEventListener("input", () => {
       currencyInput.value = formatCurrency(currencyInput.value);
       scheduleLeadSync();
     });
   });
 
-  form.querySelectorAll("#segment, #email, #simples, [name='contactConsent'], [name='marketingConsent']").forEach((field) => {
-    field.addEventListener("input", scheduleLeadSync);
-    field.addEventListener("change", scheduleLeadSync);
-  });
+  form
+    .querySelectorAll(
+      "#segment, #email, #simples, #regime, #regimeTime, #ecommerceSegment, #companyAge, #taxRecovery, [name='contactConsent'], [name='marketingConsent']"
+    )
+    .forEach((field) => {
+      field.addEventListener("input", scheduleLeadSync);
+      field.addEventListener("change", scheduleLeadSync);
+    });
 
   form.querySelectorAll('[data-action="next"]').forEach((button) => {
     button.addEventListener("click", async () => {

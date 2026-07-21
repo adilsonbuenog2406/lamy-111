@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Calcule o que sua empresa pode recuperar em tributos — Lamy Advogados">
+  <meta name="description" content="Descubra quanto sua empresa pode economizar na negociação da dívida tributária — Lamy Advogados">
   <title>Calculadora — Lamy Advogados</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Stack+Sans+Headline:wght@400;500;600;700&family=Stack+Sans+Text:wght@700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Stack+Sans+Headline:wght@300;400;500;600;700&family=Stack+Sans+Text:wght@700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/variables.css">
   <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="css/components.css">
@@ -44,8 +44,39 @@
     <section class="calculadora__section">
       <div class="calculadora__inner">
         <div class="calculadora-hero">
-          <h1 class="calculadora-hero__title">Calcule o que sua empresa pode recuperar em tributos</h1>
-          <p class="calculadora-hero__subtitle">Responda algumas perguntas rápidas e entenda se sua empresa pode reduzir custos ou recuperar valores.</p>
+          <div class="calculadora-hero__copy">
+            <h1 class="calculadora-hero__title">
+              Descubra <span class="calculadora-hero__highlight">quanto sua empresa pode economizar</span> na negociação da dívida tributária
+            </h1>
+            <p class="calculadora-hero__subtitle">Faça uma simulação gratuita de desconto, entrada e parcelamento para débitos inscritos na PGFN.</p>
+          </div>
+
+          <ul class="calculadora-hero__benefits" aria-label="Benefícios da simulação">
+            <li class="calculadora-hero__benefit">
+              <span class="calculadora-hero__benefit-icon" aria-hidden="true">
+                <img src="assets/images/calculadora/icon-simulacao.svg" alt="" width="30" height="29">
+              </span>
+              <span class="calculadora-hero__benefit-text">Simulação 100% gratuita</span>
+            </li>
+            <li class="calculadora-hero__benefit">
+              <span class="calculadora-hero__benefit-icon" aria-hidden="true">
+                <img src="assets/images/calculadora/icon-resultado.svg" alt="" width="30" height="30">
+              </span>
+              <span class="calculadora-hero__benefit-text">Resultado em poucos minutos</span>
+            </li>
+            <li class="calculadora-hero__benefit">
+              <span class="calculadora-hero__benefit-icon" aria-hidden="true">
+                <img src="assets/images/calculadora/icon-analise.svg" alt="" width="29" height="30">
+              </span>
+              <span class="calculadora-hero__benefit-text">Análise voltada para débitos na PGFN</span>
+            </li>
+            <li class="calculadora-hero__benefit">
+              <span class="calculadora-hero__benefit-icon" aria-hidden="true">
+                <img src="assets/images/calculadora/icon-desconto.svg" alt="" width="32" height="32">
+              </span>
+              <span class="calculadora-hero__benefit-text">Possibilidade de desconto e parcelamento</span>
+            </li>
+          </ul>
         </div>
 
         <form class="calculadora-form" id="calculadora-form" novalidate data-step="1">
@@ -68,7 +99,7 @@
                     <option value="" disabled selected>Selecione um segmento</option>
                     <option value="veiculos-usados">Lojas de veículos usados</option>
                     <option value="clinicas-medicas-odontologica">Clínicas médicas odontológica</option>
-                    <option value="outros">Outros</option>
+                    <option value="ecommerce-e-outros">Ecommerce e Outros</option>
                   </select>
                 </div>
               </div>
@@ -103,7 +134,7 @@
             </div>
           </div>
 
-          <div class="calculadora-form__panel" data-panel="2" hidden>
+          <div class="calculadora-form__panel" data-panel="2" data-flow="default" hidden>
             <div class="calculadora-form__fields">
               <div class="form-group calculadora-form__group">
                 <label class="calculadora-form__label" for="rbt12">Valor da receita bruta dos últimos 12 meses (RBT12)</label>
@@ -123,6 +154,64 @@
                     <option value="nao">NÃO</option>
                   </select>
                 </div>
+              </div>
+            </div>
+            <button type="button" class="btn calculadora-form__submit" data-action="next">Continuar</button>
+          </div>
+
+          <div class="calculadora-form__panel" data-panel="2" data-flow="ecommerce" hidden>
+            <div class="calculadora-form__fields">
+              <div class="form-group calculadora-form__group">
+                <label class="calculadora-form__label" for="regime">Regime</label>
+                <input class="form-input calculadora-form__input" type="text" id="regime" name="regime" required aria-label="Regime">
+              </div>
+
+              <div class="form-group calculadora-form__group">
+                <label class="calculadora-form__label" for="regimeTime">Tempo no regime</label>
+                <input class="form-input calculadora-form__input" type="text" id="regimeTime" name="regimeTime" required aria-label="Tempo no regime">
+              </div>
+
+              <div class="form-group calculadora-form__group">
+                <label class="calculadora-form__label" for="ecommerceSegment">Segmento</label>
+                <div class="calculadora-form__select-wrap">
+                  <select class="form-input calculadora-form__input calculadora-form__select" id="ecommerceSegment" name="ecommerceSegment" required>
+                    <option value="" disabled selected>Selecione um segmento</option>
+                    <option value="alimentos-e-bebidas">Alimentos e bebidas</option>
+                    <option value="autopecas">Autopeças</option>
+                    <option value="cigarros">Cigarros</option>
+                    <option value="combustiveis">Combustíveis</option>
+                    <option value="eletronicos-e-eletrodomesticos">Eletrônicos e eletrodomésticos</option>
+                    <option value="ferramentas">Ferramentas</option>
+                    <option value="material-de-construcao">Material de construção</option>
+                    <option value="material-de-limpeza">Material de limpeza</option>
+                    <option value="material-eletrico">Material elétrico</option>
+                    <option value="medicamentos">Medicamentos</option>
+                    <option value="papelaria">Papelaria</option>
+                    <option value="pneumaticos">Pneumáticos</option>
+                    <option value="utilidades-domesticas">Utilidades domésticas</option>
+                    <option value="perfumaria-higiene-cosmeticos">Perfumaria, higiene pessoal e cosméticos</option>
+                    <option value="racoes">Rações</option>
+                    <option value="sorvetes">Sorvetes</option>
+                    <option value="servicos-em-geral">Serviços em geral</option>
+                    <option value="tintas-e-vernizes">Tintas e vernizes</option>
+                    <option value="outros">Outros</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group calculadora-form__group">
+                <label class="calculadora-form__label" for="monthlyRevenue">Média de faturamento mensal</label>
+                <input class="form-input calculadora-form__input" type="text" id="monthlyRevenue" name="monthlyRevenue" required aria-label="Média de faturamento mensal" inputmode="decimal">
+              </div>
+
+              <div class="form-group calculadora-form__group">
+                <label class="calculadora-form__label" for="companyAge">Idade da empresa</label>
+                <input class="form-input calculadora-form__input" type="text" id="companyAge" name="companyAge" required aria-label="Idade da empresa">
+              </div>
+
+              <div class="form-group calculadora-form__group">
+                <label class="calculadora-form__label" for="taxRecovery">Já fez recuperação tributária?</label>
+                <input class="form-input calculadora-form__input" type="text" id="taxRecovery" name="taxRecovery" required aria-label="Já fez recuperação tributária?">
               </div>
             </div>
             <button type="button" class="btn calculadora-form__submit" data-action="next">Continuar</button>
