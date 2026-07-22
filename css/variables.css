@@ -1,0 +1,26 @@
+:root {
+  --color-navy: #000a4a;
+  --color-dark: #070235;
+  --color-red: #ff332f;
+  --color-orange: #ff7c41;
+  --color-bg: #f7f9fb;
+  --color-gray: #47464f;
+  --color-text: #191c1e;
+  --color-light: #f4f4f4;
+  --color-border: #e2e8f0;
+  --color-team-bg: #e0dddc;
+  --color-footer: #070235;
+  --color-white: #ffffff;
+  --font-headline: "Stack Sans Headline", sans-serif;
+  --font-text: "Stack Sans Text", sans-serif;
+  --container: 1440px;
+  --content-padding: clamp(24px, 5vw, 64px);
+  --section-padding: clamp(48px, 6vw, 96px);
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --shadow-card: 0 10px 30px -5px rgba(15, 23, 42, 0.05);
+  --shadow-btn: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  --nav-height: 100px;
+  --transition: 0.25s ease;
+}

@@ -1,0 +1,54 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "version": 2,
+  "buildCommand": "npm run verify:vercel-output",
+  "functions": {
+    "api/index.js": {
+      "maxDuration": 10,
+      "includeFiles": "{index.html,artigos.html,calculadora.html,artigos/**,lib/**,admin/**}"
+    },
+    "api/calculator-leads.js": {
+      "maxDuration": 10
+    },
+    "api/leads.js": {
+      "maxDuration": 10
+    },
+    "api/health.js": {
+      "maxDuration": 10
+    }
+  },
+  "rewrites": [
+    {
+      "source": "/admin",
+      "destination": "/api/index.js"
+    },
+    {
+      "source": "/admin/:path*",
+      "destination": "/api/index.js"
+    },
+    {
+      "source": "/",
+      "destination": "/api/index.js"
+    },
+    {
+      "source": "/index.html",
+      "destination": "/api/index.js"
+    },
+    {
+      "source": "/artigos.html",
+      "destination": "/api/index.js"
+    },
+    {
+      "source": "/calculadora.html",
+      "destination": "/api/index.js"
+    },
+    {
+      "source": "/artigos/:path*",
+      "destination": "/api/index.js"
+    },
+    {
+      "source": "/:slug",
+      "destination": "/api/index.js"
+    }
+  ]
+}
