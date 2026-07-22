@@ -25,12 +25,12 @@ let app;
 try {
   app = require("../server");
   // #region agent log
-  debugLog("R7", "api/index.js:load", "Express app loaded for Vercel", {
+  debugLog("R8", "api/index.js:load", "Express app loaded for Vercel", {
     vercel: process.env.VERCEL || null,
     nodeEnv: process.env.NODE_ENV || null,
     hasSupabaseUrl: Boolean(process.env.SUPABASE_URL),
     hasServiceRole: Boolean(process.env.SUPABASE_SERVICE_ROLE_KEY),
-    fix: "removed-includeFiles",
+    fix: "pin-jsdom-26.1.0",
   });
   // #endregion
 } catch (error) {
@@ -46,7 +46,7 @@ try {
   console.error("LAMY_LOAD_FAIL_MESSAGE", data.message);
   console.error("LAMY_LOAD_FAIL_CODE", data.code);
   console.error("LAMY_LOAD_FAIL_STACK", data.stack.join("\n"));
-  debugLog("R7", "api/index.js:load-error", "Express app failed to load", data);
+  debugLog("R8", "api/index.js:load-error", "Express app failed to load", data);
   // #endregion
   throw error;
 }
