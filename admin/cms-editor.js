@@ -256,7 +256,7 @@
       label: "Imagem",
       category: "CMS",
       content:
-        '<img class="cms-image" src="/assets/site-home/CAPA ARTIGO 01.png" alt="Imagem da página" loading="lazy">',
+        '<img class="cms-image" src="/assets/site-home/CAPA ARTIGO 01.jpg" alt="Imagem da página" loading="lazy">',
     });
 
     blocks.add("cms-button", {

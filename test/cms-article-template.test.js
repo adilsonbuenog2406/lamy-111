@@ -88,7 +88,7 @@ test("upsert do card na listagem é idempotente por href", () => {
     path: "/artigos/artigo-novo.html",
     badge: "Tributário",
     readTime: "4 min de leitura",
-    image: "/assets/site-home/CAPA ARTIGO 02.png",
+    image: "/assets/site-home/CAPA ARTIGO 02.jpg",
     excerpt: "Resumo do artigo novo.",
   });
 
@@ -102,7 +102,7 @@ test("upsert do card na listagem é idempotente por href", () => {
     path: "/artigos/artigo-novo.html",
     badge: "Tributário",
     readTime: "4 min de leitura",
-    image: "/assets/site-home/CAPA ARTIGO 02.png",
+    image: "/assets/site-home/CAPA ARTIGO 02.jpg",
     excerpt: "Resumo do artigo novo.",
   });
 
@@ -130,7 +130,7 @@ test("upsert atualiza card existente sem duplicar na listagem", () => {
     path: "/artigos/desafios-regulatorios-era-digital.html",
     badge: "Global Law",
     readTime: "10 min de leitura",
-    image: "/assets/site-home/CAPA ARTIGO 03.png",
+    image: "/assets/site-home/CAPA ARTIGO 03.jpg",
     excerpt: "Resumo atualizado do artigo.",
   });
 
@@ -142,7 +142,7 @@ test("upsert atualiza card existente sem duplicar na listagem", () => {
   );
   assert.match(updated.html, /Desafios Regulatórios Transfronteiriços na Era Digital/);
   assert.match(updated.html, /Resumo atualizado do artigo/);
-  assert.match(updated.html, /CAPA ARTIGO 03\.png/);
+  assert.match(updated.html, /CAPA ARTIGO 03\.jpg/);
   assert.doesNotMatch(updated.html, /Título antigo/);
   assert.equal(updated.html.match(/class="artigos-card"/g)?.length, 1);
 });
@@ -154,7 +154,7 @@ test("extractArticleListingMeta lê campos do HTML do artigo", () => {
       <span class="artigo-detail__badge">Societário</span>
       <span class="artigo-detail__read-time">8 min de leitura</span>
       <h1 class="artigo-detail__title">Título Extraído</h1>
-      <img class="artigo-detail__hero-img" src="/assets/site-home/CAPA ARTIGO 03.png" alt="">
+      <img class="artigo-detail__hero-img" src="/assets/site-home/CAPA ARTIGO 03.jpg" alt="">
       <div class="artigo-detail__content"><p>Primeiro parágrafo do conteúdo.</p></div>
     </article>`,
   });
@@ -162,7 +162,7 @@ test("extractArticleListingMeta lê campos do HTML do artigo", () => {
   assert.equal(meta.title, "Título Extraído");
   assert.equal(meta.badge, "Societário");
   assert.equal(meta.readTime, "8 min de leitura");
-  assert.equal(meta.image, "/assets/site-home/CAPA ARTIGO 03.png");
+  assert.equal(meta.image, "/assets/site-home/CAPA ARTIGO 03.jpg");
   assert.match(meta.excerpt, /Primeiro parágrafo/);
 });
 
@@ -216,7 +216,7 @@ function createListingAwareMemoryDb() {
       <span class="artigo-detail__badge">Notícias</span>
       <span class="artigo-detail__read-time">5 min de leitura</span>
       <h1 class="artigo-detail__title">Novo Artigo</h1>
-      <img class="artigo-detail__hero-img" src="/assets/site-home/CAPA ARTIGO 01.png" alt="">
+      <img class="artigo-detail__hero-img" src="/assets/site-home/CAPA ARTIGO 01.jpg" alt="">
       <div class="artigo-detail__content"><p>Conteúdo do novo artigo publicado.</p></div>
     </article>`,
     css: ".artigo-detail{display:block}",
@@ -344,7 +344,7 @@ test("publish de artigo CMS injeta card na listagem e republica /artigos.html", 
       <span class="artigo-detail__badge">Notícias</span>
       <span class="artigo-detail__read-time">8 min de leitura</span>
       <h1 class="artigo-detail__title">Novo Artigo Atualizado</h1>
-      <img class="artigo-detail__hero-img" src="/assets/site-home/CAPA ARTIGO 02.png" alt="">
+      <img class="artigo-detail__hero-img" src="/assets/site-home/CAPA ARTIGO 02.jpg" alt="">
       <div class="artigo-detail__content"><p>Conteúdo atualizado do mesmo artigo.</p></div>
     </article>`,
     css: ".artigo-detail{display:block}",

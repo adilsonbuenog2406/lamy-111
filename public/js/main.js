@@ -165,7 +165,6 @@
     "bruno.jpg": "#4259F0",
     "helena.jpg": "#47464F",
     "isabelle.jpg": "#000A4A",
-    "kerollen.jpg": "#070235",
   };
 
   document.querySelectorAll(
@@ -184,107 +183,130 @@
     });
   });
 
-  // #region agent log
-  function debugFooterLayout() {
-    const footerInner = document.querySelector(".footer__inner");
-    const contatoInner = document.querySelector(".contato__inner");
-    const brand = document.querySelector(".footer__brand");
-    const nav = document.querySelector(".footer__links");
-    const logo = document.querySelector(".footer__logo-img");
-    const innerStyle = footerInner ? getComputedStyle(footerInner) : null;
-    const brandRect = brand?.getBoundingClientRect();
-    const navRect = nav?.getBoundingClientRect();
-    const contatoRect = contatoInner?.getBoundingClientRect();
-    const mapRect = document.querySelector(".contato__map")?.getBoundingClientRect();
-    const firstLink = nav?.querySelector(".footer__link");
-    const secondLink = nav?.querySelectorAll(".footer__link")[1];
+  /* Hero video — force muted autoplay (Safari / delayed buffer) */
+  const heroVideo = document.querySelector(".hero__video");
+  if (heroVideo) {
+    const ensureHeroAutoplay = () => {
+      heroVideo.muted = true;
+      heroVideo.defaultMuted = true;
+      heroVideo.setAttribute("muted", "");
+      heroVideo.playsInline = true;
+      const attempt = heroVideo.play();
+      if (attempt && typeof attempt.catch === "function") {
+        attempt.catch(() => {});
+      }
+    };
 
-    fetch("http://127.0.0.1:7742/ingest/7432ea2d-ca8e-4386-ba89-76eaa905b809", {
-      method: "POST",
-      headers: { "Content-Type": "application/json", "X-Debug-Session-Id": "6c09b9" },
-      body: JSON.stringify({
-        sessionId: "6c09b9",
-        runId: "footer-figma-v3",
-        hypothesisId: "FG1-FG4",
-        location: "main.js:debugFooterLayout",
-        message: "footer grid alignment audit",
-        data: {
-          innerDisplay: innerStyle?.display ?? null,
-          innerGridCols: innerStyle?.gridTemplateColumns ?? null,
-          innerGap: innerStyle?.columnGap ?? null,
-          footerHeight: document.querySelector(".footer")?.getBoundingClientRect().height ?? null,
-          innerHeight: footerInner?.getBoundingClientRect().height ?? null,
-          brandLeft: brandRect?.left ?? null,
-          navLeft: navRect?.left ?? null,
-          brandNavGap: brandRect && navRect ? navRect.left - brandRect.right : null,
-          contatoLeft: contatoRect?.left ?? null,
-          mapLeft: mapRect?.left ?? null,
-          brandAlignsContato: brandRect && contatoRect ? Math.abs(brandRect.left - contatoRect.left) < 2 : null,
-          navAlignsMap: navRect && mapRect ? Math.abs(navRect.left - mapRect.left) < 4 : null,
-          logoWidth: logo ? getComputedStyle(logo).width : null,
-          logoWrapHeight: document.querySelector(".footer__logo")?.getBoundingClientRect().height ?? null,
-          linkGap: firstLink && secondLink
-            ? secondLink.getBoundingClientRect().left - firstLink.getBoundingClientRect().right
-            : null,
-          navVerticalOffset: brandRect && navRect
-            ? Math.abs((navRect.top + navRect.height / 2) - (brandRect.top + brandRect.height / 2))
-            : null,
-        },
-        timestamp: Date.now(),
-      }),
-    }).catch(() => {});
-  }
-
-  window.addEventListener("load", debugFooterLayout);
-  window.addEventListener("resize", debugFooterLayout);
-  // #endregion
-
-  // #region agent log
-  function debugSegmentCardHover() {
-    const cards = document.querySelectorAll(".segmentos .glass-card.segment-card, .segment-card--featured");
-    if (!cards.length) return;
-
-    cards.forEach((card) => {
-      card.addEventListener("mouseenter", () => {
-        const icon = card.querySelector(".glass-card__icon img, .segment-card__mark");
-        const title = card.querySelector(".glass-card__title, .segment-card__title");
-        const samples = [0, 16, 50, 100, 150, 200, 300];
-
-        samples.forEach((delay) => {
-          requestAnimationFrame(() => {
-            setTimeout(() => {
-              const iconStyle = icon ? getComputedStyle(icon) : null;
-              const titleStyle = title ? getComputedStyle(title) : null;
-              const cardStyle = getComputedStyle(card);
-
-              fetch("http://127.0.0.1:7742/ingest/7432ea2d-ca8e-4386-ba89-76eaa905b809", {
-                method: "POST",
-                headers: { "Content-Type": "application/json", "X-Debug-Session-Id": "a79065" },
-                body: JSON.stringify({
-                  sessionId: "a79065",
-                  runId: "hover-post-fix",
-                  hypothesisId: delay === 0 ? "A,B,C" : "A",
-                  location: "main.js:debugSegmentCardHover",
-                  message: "segment card hover sample",
-                  data: {
-                    delayMs: delay,
-                    cardClass: card.className,
-                    isFeatured: card.classList.contains("segment-card--featured"),
-                    bg: cardStyle.backgroundColor,
-                    titleColor: titleStyle?.color ?? null,
-                    iconFilter: iconStyle?.filter ?? null,
-                    iconTransition: iconStyle?.transition ?? null,
-                  },
-                  timestamp: Date.now(),
-                }),
-              }).catch(() => {});
-            }, delay);
-          });
-        });
-      });
+    ensureHeroAutoplay();
+    heroVideo.addEventListener("loadeddata", ensureHeroAutoplay, { once: true });
+    heroVideo.addEventListener("canplay", ensureHeroAutoplay, { once: true });
+    document.addEventListener("visibilitychange", () => {
+      if (!document.hidden && heroVideo.paused) ensureHeroAutoplay();
     });
   }
 
-  window.addEventListener("load", debugSegmentCardHover);
+  // #region agent log
+  (function debugHeroPerf() {
+    const ENDPOINT = "http://127.0.0.1:7356/ingest/30b1e897-e730-403a-921a-cfb8f842ec31";
+    const SESSION = "b4d0d7";
+    const RUN = "post-fix";
+
+    function agentLog(hypothesisId, location, message, data) {
+      fetch(ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "X-Debug-Session-Id": SESSION },
+        body: JSON.stringify({
+          sessionId: SESSION,
+          runId: RUN,
+          hypothesisId,
+          location,
+          message,
+          data: data || {},
+          timestamp: Date.now(),
+        }),
+      }).catch(() => {});
+    }
+
+    const video = document.querySelector(".hero__video");
+    if (!video) {
+      agentLog("B", "main.js:debugHeroPerf", "hero video missing", {});
+      return;
+    }
+
+    const videoSnapshot = () => ({
+      paused: video.paused,
+      muted: video.muted,
+      autoplay: video.autoplay,
+      playsInline: video.playsInline,
+      loop: video.loop,
+      preload: video.preload,
+      readyState: video.readyState,
+      networkState: video.networkState,
+      currentTime: video.currentTime,
+      duration: Number.isFinite(video.duration) ? video.duration : null,
+      errorCode: video.error ? video.error.code : null,
+      src: video.currentSrc || video.querySelector("source")?.src || null,
+      poster: video.getAttribute("poster"),
+      hasAutoplayAttr: video.hasAttribute("autoplay"),
+      hasMutedAttr: video.hasAttribute("muted"),
+      hasPlaysinlineAttr: video.hasAttribute("playsinline"),
+    });
+
+    agentLog("B", "main.js:hero-init", "hero video initial state", videoSnapshot());
+
+    ["loadedmetadata", "canplay", "canplaythrough", "playing", "pause", "stalled", "waiting", "error"].forEach((evt) => {
+      video.addEventListener(evt, () => {
+        agentLog("A,B", `main.js:hero-${evt}`, `hero video event: ${evt}`, videoSnapshot());
+      });
+    });
+
+    const playAttempt = video.play();
+    if (playAttempt && typeof playAttempt.then === "function") {
+      playAttempt
+        .then(() => agentLog("B", "main.js:hero-play-ok", "video.play() resolved", videoSnapshot()))
+        .catch((err) =>
+          agentLog("B", "main.js:hero-play-fail", "video.play() rejected", {
+            ...videoSnapshot(),
+            errorName: err && err.name,
+            errorMessage: err && err.message,
+          })
+        );
+    }
+
+    window.addEventListener("load", () => {
+      const nav = performance.getEntriesByType("navigation")[0];
+      const resources = performance.getEntriesByType("resource");
+      const videoRes = resources.find((r) => /lamy-video\.mp4/i.test(r.name));
+      const heavy = resources
+        .filter((r) => (r.transferSize || r.encodedBodySize || 0) > 200000)
+        .map((r) => ({
+          name: r.name.split("/").pop(),
+          transferKB: Math.round((r.transferSize || r.encodedBodySize || 0) / 1024),
+          durationMs: Math.round(r.duration),
+          initiatorType: r.initiatorType,
+        }))
+        .sort((a, b) => b.transferKB - a.transferKB)
+        .slice(0, 12);
+
+      agentLog("A,D", "main.js:hero-resources", "heavy resources and video timing", {
+        videoTransferKB: videoRes
+          ? Math.round((videoRes.transferSize || videoRes.encodedBodySize || 0) / 1024)
+          : null,
+        videoDurationMs: videoRes ? Math.round(videoRes.duration) : null,
+        videoStartMs: videoRes ? Math.round(videoRes.startTime) : null,
+        ttfbMs: nav ? Math.round(nav.responseStart - nav.requestStart) : null,
+        domContentLoadedMs: nav ? Math.round(nav.domContentLoadedEventEnd) : null,
+        loadEventMs: nav ? Math.round(nav.loadEventEnd) : null,
+        heavy,
+        videoAfterLoad: videoSnapshot(),
+      });
+
+      agentLog("C", "main.js:hero-poster-check", "poster/preload attributes", {
+        poster: video.getAttribute("poster"),
+        preloadAttr: video.getAttribute("preload"),
+        preloadProp: video.preload,
+      });
+    });
+  })();
   // #endregion
 })();

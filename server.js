@@ -2,42 +2,19 @@ const crypto = require("crypto");
 const fs = require("fs");
 const path = require("path");
 
-// #region agent log
-function bootLog(step, extra) {
-  if (process.env.VERCEL === "1") {
-    console.log(
-      `DEBUG_17859a ${JSON.stringify({
-        sessionId: "17859a",
-        runId: process.env.DEBUG_RUN_ID || "runtime",
-        hypothesisId: "R7",
-        location: "server.js:boot",
-        message: step,
-        data: extra || {},
-        timestamp: Date.now(),
-      })}`
-    );
-  }
-}
-// #endregion
-
 // On Vercel, env vars come from the dashboard — skip .env file lookup.
 if (process.env.VERCEL !== "1") {
   require("dotenv").config({ quiet: true });
 }
-bootLog("dotenv-done");
 
 const express = require("express");
-bootLog("express-loaded");
 
 const { normalizeCalculatorLeadPayload, validateCompleteLeadPayload } = require("./lib/calculator-lead-payload");
-bootLog("calculator-payload-loaded");
 const {
   normalizePageHtml,
   renderPublicPage,
 } = require("./lib/cms-content");
-bootLog("cms-content-loaded");
 const { createCmsDb } = require("./lib/cms-db");
-bootLog("cms-db-loaded");
 const { createCmsPageService } = require("./lib/cms-page-service");
 const { createStaticPageImporter } = require("./lib/cms-static-import");
 const {
@@ -46,7 +23,6 @@ const {
   canDeleteCmsArticle,
   isCmsArticlePath,
 } = require("./lib/cms-article-template");
-bootLog("cms-article-loaded");
 const { listMediaAssets, saveUploadedMedia } = require("./lib/cms-media");
 const {
   getSiteMapPageByPath,
@@ -61,7 +37,6 @@ const {
   getPageAdminStatusLabel,
 } = require("./lib/cms-admin-inventory");
 const { getLeadAnswers } = require("./lib/lead-answers");
-bootLog("all-libs-loaded");
 
 const app = express();
 const rootDir = __dirname;
@@ -74,7 +49,6 @@ const db = createCmsDb({ rootDir });
 const pageService = createCmsPageService({ db });
 const staticImporter = createStaticPageImporter({ db, rootDir });
 const servesStaticFiles = process.env.VERCEL !== "1";
-bootLog("app-initialized", { rootDir, servesStaticFiles });
 
 app.disable("x-powered-by");
 app.use(express.urlencoded({ extended: false, limit: "2mb" }));
@@ -157,39 +131,6 @@ function clearAuthCookie(res) {
 }
 
 app.use((req, _res, next) => {
-  // #region agent log
-  if (process.env.VERCEL === "1") {
-    fetch("http://127.0.0.1:7356/ingest/30b1e897-e730-403a-921a-cfb8f842ec31", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-Debug-Session-Id": "17859a",
-      },
-      body: JSON.stringify({
-        sessionId: "17859a",
-        runId: process.env.DEBUG_RUN_ID || "runtime",
-        hypothesisId: "R4",
-        location: "server.js:request",
-        message: "incoming request on Vercel",
-        data: {
-          method: req.method,
-          url: req.originalUrl || req.url || null,
-          path: req.path || null,
-        },
-        timestamp: Date.now(),
-      }),
-    }).catch(() => {});
-    console.log(
-      `DEBUG_17859a ${JSON.stringify({
-        sessionId: "17859a",
-        hypothesisId: "R4",
-        message: "incoming request on Vercel",
-        data: { method: req.method, path: req.path || null, url: req.originalUrl || req.url || null },
-        timestamp: Date.now(),
-      })}`
-    );
-  }
-  // #endregion
   const cookies = parseCookies(req.headers.cookie);
   req.cmsSession = decodeSessionCookie(cookies.lamy_cms_session);
   next();
@@ -1067,44 +1008,11 @@ function sendStaticFallback(res, sourceFile) {
     path.join(rootDir, "public", "_static-fallback", sourceFile),
   ];
 
-  // #region agent log
-  const candidateStatus = candidates.map((candidate) => ({
-    candidate,
-    exists: fs.existsSync(candidate),
-  }));
-  if (process.env.VERCEL === "1") {
-    console.log(
-      `DEBUG_17859a ${JSON.stringify({
-        sessionId: "17859a",
-        hypothesisId: "R5",
-        location: "server.js:sendStaticFallback",
-        message: "static fallback candidates",
-        data: { sourceFile, rootDir, candidateStatus },
-        timestamp: Date.now(),
-      })}`
-    );
-  }
-  // #endregion
-
   for (const candidate of candidates) {
     if (fs.existsSync(candidate)) {
       res.sendFile(candidate, (error) => {
-        if (error) {
-          // #region agent log
-          console.log(
-            `DEBUG_17859a ${JSON.stringify({
-              sessionId: "17859a",
-              hypothesisId: "R5",
-              location: "server.js:sendFile",
-              message: "sendFile failed",
-              data: { candidate, code: error.code || null, message: error.message },
-              timestamp: Date.now(),
-            })}`
-          );
-          // #endregion
-          if (!res.headersSent) {
-            res.status(500).send("Erro ao carregar página.");
-          }
+        if (error && !res.headersSent) {
+          res.status(500).send("Erro ao carregar página.");
         }
       });
       return;

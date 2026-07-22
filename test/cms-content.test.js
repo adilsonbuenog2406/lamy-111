@@ -31,7 +31,8 @@ test("sanitização preserva formulário, vídeo, ARIA e Google Maps da Home", (
   assert.ok(document.querySelector("#contact-form"));
   assert.ok(document.querySelector('#contact-form input[name="email"][required]'));
   assert.ok(document.querySelector('#contact-form button[type="submit"]'));
-  assert.ok(document.querySelector("video[autoplay][muted][loop][playsinline]"));
+  assert.ok(document.querySelector("video[autoplay][muted][loop][playsinline][preload='auto']"));
+  assert.ok(document.querySelector("video[poster$='lamy-video-poster.jpg']"));
   assert.ok(document.querySelector('video source[src$="lamy-video.mp4"]'));
   assert.equal(document.querySelectorAll("iframe").length, 1);
   assert.match(document.querySelector("iframe").getAttribute("src"), /^https:\/\/www\.google\.com\/maps\/embed/);

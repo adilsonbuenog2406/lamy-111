@@ -8,6 +8,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Stack+Sans+Headline:wght@400;500;600;700&family=Stack+Sans+Text:wght@700&display=swap" rel="stylesheet">
+  <link rel="preload" href="assets/images/lamy-video-poster.jpg" as="image">
+  <link rel="preload" href="assets/images/lamy-video.mp4" as="video" type="video/mp4">
   <link rel="stylesheet" href="css/variables.css">
   <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="css/components.css">
@@ -43,7 +45,16 @@
 
     <!-- Hero -->
     <section class="hero" id="escritorio">
-      <video class="hero__video" autoplay muted loop playsinline aria-hidden="true">
+      <video
+        class="hero__video"
+        autoplay
+        muted
+        loop
+        playsinline
+        preload="auto"
+        poster="assets/images/lamy-video-poster.jpg"
+        aria-hidden="true"
+      >
         <source src="assets/images/lamy-video.mp4" type="video/mp4">
       </video>
       <div class="hero__content">
@@ -226,18 +237,6 @@
                 </button>
               </div>
             </article>
-            <article class="team-card">
-              <img class="team-card__photo" src="assets/images/kerollen.jpg" alt="Bruno Peixoto" loading="lazy">
-              <h3 class="team-card__name">Bruno Peixoto</h3>
-              <p class="team-card__role">CONSULTOR COMERCIAL</p>
-              <div class="team-card__body">
-                <p class="team-card__bio">Graduando na Faculdade de Direito de Curitiba (Unicuritiba), formação complementar em Harvard Law School no tema "Justice - Law and Political Philosophy", turma 2024.<span class="team-card__languages"><span class="team-card__languages-label">Idiomas:</span> Português (nativo) e Inglês (fluente).</span></p>
-                <button type="button" class="team-card__toggle" aria-expanded="false" aria-label="Saiba mais sobre Bruno Peixoto">
-                  <span class="team-card__toggle-text">SAIBA MAIS</span>
-                  <svg class="team-card__toggle-icon" viewBox="0 0 12 8" fill="none" aria-hidden="true"><path d="M1 1l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                </button>
-              </div>
-            </article>
           </div>
 
           <button class="equipe__nav equipe__nav--next" id="team-next" type="button" aria-label="Próxima equipe">
@@ -266,19 +265,19 @@
 
         <div class="insights__grid">
           <a href="artigos/transacao-tributaria-debitos-posteriores.html" class="article-card">
-            <img class="article-card__image" src="assets/site-home/CAPA ARTIGO 01.png" alt="Transação tributária e débitos inscritos na PGFN" loading="lazy">
+            <img class="article-card__image" src="assets/site-home/CAPA ARTIGO 01.jpg" alt="Transação tributária e débitos inscritos na PGFN" loading="lazy">
             <p class="article-card__meta">Tributário • 5 min leitura</p>
             <h3 class="article-card__title">TRF3 afasta vedação da Portaria nº 6.757/22 da PGFN e garante adesão de débitos à transação</h3>
             <p class="article-card__excerpt">A vedação da Portaria nº 6.757/22 da PGFN à adesão de débitos tributários inscritos em dívida ativa há menos de 90 dias foi afastada por decisão do TRF3.</p>
           </a>
           <a href="artigos/exclusao-icms-difal-pis-cofins.html" class="article-card">
-            <img class="article-card__image" src="assets/site-home/CAPA ARTIGO 02.png" alt="Exclusão do ICMS-DIFAL da base de cálculo do PIS e da COFINS" loading="lazy">
+            <img class="article-card__image" src="assets/site-home/CAPA ARTIGO 02.jpg" alt="Exclusão do ICMS-DIFAL da base de cálculo do PIS e da COFINS" loading="lazy">
             <p class="article-card__meta">Tributário • 5 min leitura</p>
             <h3 class="article-card__title">Empresas do e-commerce: exclusão do ICMS-DIFAL da base de cálculo do PIS e da COFINS</h3>
             <p class="article-card__excerpt">Um dos principais equívocos tributários no e-commerce é a inclusão do ICMS-DIFAL na base de cálculo do PIS e da COFINS.</p>
           </a>
           <a href="artigos/desafios-regulatorios-era-digital.html" class="article-card">
-            <img class="article-card__image" src="assets/site-home/CAPA ARTIGO 03.png" alt="Desafios regulatórios transfronteiriços na era digital" loading="lazy">
+            <img class="article-card__image" src="assets/site-home/CAPA ARTIGO 03.jpg" alt="Desafios regulatórios transfronteiriços na era digital" loading="lazy">
             <p class="article-card__meta">Global Law • 10 min leitura</p>
             <h3 class="article-card__title">Desafios Regulatórios Transfronteiriços na Era Digital</h3>
             <p class="article-card__excerpt">Como empresas brasileiras devem se preparar para as novas exigências de compliance transfronteiriço na era digital.</p>

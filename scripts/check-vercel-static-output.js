@@ -65,6 +65,7 @@ const requiredStaticFiles = [
   "js/calculadora.js",
   "assets/images/logo-principal.png",
   "assets/images/lamy-video.mp4",
+  "assets/images/lamy-video-poster.jpg",
   "assets/images/artigos/venture-capital.png",
   "assets/images/artigos/global-compliance.png",
   "assets/images/calculadora/icon-simulacao.svg",
