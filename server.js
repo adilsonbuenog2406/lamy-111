@@ -128,6 +128,39 @@ function clearAuthCookie(res) {
 }
 
 app.use((req, _res, next) => {
+  // #region agent log
+  if (process.env.VERCEL === "1") {
+    fetch("http://127.0.0.1:7356/ingest/30b1e897-e730-403a-921a-cfb8f842ec31", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Debug-Session-Id": "17859a",
+      },
+      body: JSON.stringify({
+        sessionId: "17859a",
+        runId: process.env.DEBUG_RUN_ID || "runtime",
+        hypothesisId: "R4",
+        location: "server.js:request",
+        message: "incoming request on Vercel",
+        data: {
+          method: req.method,
+          url: req.originalUrl || req.url || null,
+          path: req.path || null,
+        },
+        timestamp: Date.now(),
+      }),
+    }).catch(() => {});
+    console.log(
+      `DEBUG_17859a ${JSON.stringify({
+        sessionId: "17859a",
+        hypothesisId: "R4",
+        message: "incoming request on Vercel",
+        data: { method: req.method, path: req.path || null, url: req.originalUrl || req.url || null },
+        timestamp: Date.now(),
+      })}`
+    );
+  }
+  // #endregion
   const cookies = parseCookies(req.headers.cookie);
   req.cmsSession = decodeSessionCookie(cookies.lamy_cms_session);
   next();
@@ -1005,9 +1038,46 @@ function sendStaticFallback(res, sourceFile) {
     path.join(rootDir, "public", "_static-fallback", sourceFile),
   ];
 
+  // #region agent log
+  const candidateStatus = candidates.map((candidate) => ({
+    candidate,
+    exists: fs.existsSync(candidate),
+  }));
+  if (process.env.VERCEL === "1") {
+    console.log(
+      `DEBUG_17859a ${JSON.stringify({
+        sessionId: "17859a",
+        hypothesisId: "R5",
+        location: "server.js:sendStaticFallback",
+        message: "static fallback candidates",
+        data: { sourceFile, rootDir, candidateStatus },
+        timestamp: Date.now(),
+      })}`
+    );
+  }
+  // #endregion
+
   for (const candidate of candidates) {
     if (fs.existsSync(candidate)) {
-      res.sendFile(candidate);
+      res.sendFile(candidate, (error) => {
+        if (error) {
+          // #region agent log
+          console.log(
+            `DEBUG_17859a ${JSON.stringify({
+              sessionId: "17859a",
+              hypothesisId: "R5",
+              location: "server.js:sendFile",
+              message: "sendFile failed",
+              data: { candidate, code: error.code || null, message: error.message },
+              timestamp: Date.now(),
+            })}`
+          );
+          // #endregion
+          if (!res.headersSent) {
+            res.status(500).send("Erro ao carregar página.");
+          }
+        }
+      });
       return;
     }
   }
