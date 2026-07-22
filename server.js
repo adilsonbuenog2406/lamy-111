@@ -2,16 +2,42 @@ const crypto = require("crypto");
 const fs = require("fs");
 const path = require("path");
 
-require("dotenv").config();
+// #region agent log
+function bootLog(step, extra) {
+  if (process.env.VERCEL === "1") {
+    console.log(
+      `DEBUG_17859a ${JSON.stringify({
+        sessionId: "17859a",
+        runId: process.env.DEBUG_RUN_ID || "runtime",
+        hypothesisId: "R7",
+        location: "server.js:boot",
+        message: step,
+        data: extra || {},
+        timestamp: Date.now(),
+      })}`
+    );
+  }
+}
+// #endregion
+
+// On Vercel, env vars come from the dashboard — skip .env file lookup.
+if (process.env.VERCEL !== "1") {
+  require("dotenv").config({ quiet: true });
+}
+bootLog("dotenv-done");
 
 const express = require("express");
+bootLog("express-loaded");
 
 const { normalizeCalculatorLeadPayload, validateCompleteLeadPayload } = require("./lib/calculator-lead-payload");
+bootLog("calculator-payload-loaded");
 const {
   normalizePageHtml,
   renderPublicPage,
 } = require("./lib/cms-content");
+bootLog("cms-content-loaded");
 const { createCmsDb } = require("./lib/cms-db");
+bootLog("cms-db-loaded");
 const { createCmsPageService } = require("./lib/cms-page-service");
 const { createStaticPageImporter } = require("./lib/cms-static-import");
 const {
@@ -20,6 +46,7 @@ const {
   canDeleteCmsArticle,
   isCmsArticlePath,
 } = require("./lib/cms-article-template");
+bootLog("cms-article-loaded");
 const { listMediaAssets, saveUploadedMedia } = require("./lib/cms-media");
 const {
   getSiteMapPageByPath,
@@ -34,6 +61,7 @@ const {
   getPageAdminStatusLabel,
 } = require("./lib/cms-admin-inventory");
 const { getLeadAnswers } = require("./lib/lead-answers");
+bootLog("all-libs-loaded");
 
 const app = express();
 const rootDir = __dirname;
@@ -46,6 +74,7 @@ const db = createCmsDb({ rootDir });
 const pageService = createCmsPageService({ db });
 const staticImporter = createStaticPageImporter({ db, rootDir });
 const servesStaticFiles = process.env.VERCEL !== "1";
+bootLog("app-initialized", { rootDir, servesStaticFiles });
 
 app.disable("x-powered-by");
 app.use(express.urlencoded({ extended: false, limit: "2mb" }));

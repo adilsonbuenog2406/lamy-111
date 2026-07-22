@@ -17,6 +17,7 @@ function readJson(filePath) {
 
 const config = readJson(vercelConfigPath);
 const publicDir = path.join(rootDir, "public");
+const indexFunction = config.functions && config.functions["api/index.js"];
 
 const rewrites = Array.isArray(config.rewrites) ? config.rewrites : [];
 const apiCatchAllRewrite = rewrites.find((rewrite) => rewrite.source === "/api/:path*");
@@ -42,23 +43,10 @@ for (const source of requiredRewriteSources) {
   }
 }
 
-const indexFunction = config.functions && config.functions["api/index.js"];
-const includeFiles = String(indexFunction?.includeFiles || "");
-const requiredIncludeFragments = [
-  "index.html",
-  "artigos.html",
-  "calculadora.html",
-  "artigos/**",
-  "lib/**",
-  "admin/**",
-  "css/**",
-  "public/_static-fallback/**",
-];
-
-for (const fragment of requiredIncludeFragments) {
-  if (!includeFiles.includes(fragment)) {
-    fail(`includeFiles de api/index.js deve incluir "${fragment}"`);
-  }
+// includeFiles is intentionally omitted: bundling lib/** via includeFiles
+// broke Express load on Vercel. NFT traces JS deps from api/index.js instead.
+if (indexFunction?.includeFiles) {
+  fail('Remova includeFiles de api/index.js; ele quebrou o load do Express na Vercel.');
 }
 
 if (process.exitCode) {

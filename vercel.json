@@ -4,8 +4,7 @@
   "buildCommand": "npm run verify:vercel-output",
   "functions": {
     "api/index.js": {
-      "maxDuration": 30,
-      "includeFiles": "{index.html,artigos.html,calculadora.html,artigos/**,lib/**,admin/**,css/**,js/**,public/_static-fallback/**}"
+      "maxDuration": 30
     },
     "api/calculator-leads.js": {
       "maxDuration": 10
