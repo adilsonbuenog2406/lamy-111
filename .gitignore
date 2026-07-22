@@ -6,3 +6,6 @@ data/*.sqlite-*
 dist/
 backups/
 *.zip
+.vercel
+public/assets/cms-uploads/*
+!public/assets/cms-uploads/.gitkeep

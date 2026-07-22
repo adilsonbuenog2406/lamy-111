@@ -2,15 +2,15 @@
 
 Este projeto está preparado para rodar na Vercel com:
 
-- site estático versionado e servido a partir de `public/`;
-- CMS Express rodando como Vercel Function em `api/index.js`;
-- persistência do CMS no Supabase, tabela `public.lamy_pages`;
-- captura da calculadora no Supabase, tabela `public.lamy_calculator_leads`;
-- autenticação do CMS por cookie assinado, sem sessão em memória.
+- assets estáticos servidos de `public/` (CDN);
+- CMS Express em `api/index.js` (rewrites no `vercel.json`);
+- endpoints dedicados em `api/health.js`, `api/calculator-leads.js`, `api/leads.js`;
+- persistência no Supabase (`lamy_pages`, `lamy_calculator_leads`);
+- autenticação do CMS por cookie assinado.
 
 ## 1. Variáveis obrigatórias
 
-No painel da Vercel, configure:
+No painel da Vercel → Project → Settings → Environment Variables:
 
 ```env
 NODE_ENV=production
@@ -20,12 +20,11 @@ SESSION_SECRET=gere-uma-string-longa-aleatoria
 SUPABASE_URL=https://seu-projeto.supabase.co
 SUPABASE_ANON_KEY=sua-anon-key
 SUPABASE_SERVICE_ROLE_KEY=sua-service-role-key
-CMS_ALLOW_PAGE_JS=false
 ```
 
-`SUPABASE_SERVICE_ROLE_KEY` é usado apenas no backend da Vercel Function. Não coloque essa chave em código frontend nem em variáveis `NEXT_PUBLIC_*`.
+`SUPABASE_SERVICE_ROLE_KEY` fica só no backend. Não use prefixo `NEXT_PUBLIC_` nem exponha no frontend.
 
-Gere o `SESSION_SECRET` localmente com:
+Gere o `SESSION_SECRET`:
 
 ```bash
 node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
@@ -33,31 +32,15 @@ node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
 
 ## 2. Migrations
 
-As migrations principais estão em:
-
-```text
-supabase/migrations/20260714005701_create_lamy_pages.sql
-supabase/migrations/20260714010643_create_lamy_calculator_leads.sql
-```
-
-Elas criam `public.lamy_pages` e `public.lamy_calculator_leads`, seguindo a nomenclatura `lamy_TABLENAME`.
-
-Para aplicar pelo CLI, primeiro faça login/link do projeto:
+Aplique as migrations em `supabase/migrations/` (CLI ou SQL Editor):
 
 ```bash
 npx supabase login
 npx supabase link --project-ref SEU_PROJECT_REF
-```
-
-O `SEU_PROJECT_REF` é a parte entre `https://` e `.supabase.co` em `SUPABASE_URL`.
-
-Depois aplique:
-
-```bash
 npm run db:push
 ```
 
-Se preferir, copie o SQL da migration e execute no SQL Editor do Supabase.
+O `SEU_PROJECT_REF` é a parte entre `https://` e `.supabase.co` em `SUPABASE_URL`.
 
 ## 3. Build
 
@@ -67,43 +50,44 @@ A Vercel executa:
 npm run verify:vercel-output
 ```
 
-Esse comando gera/atualiza `public/` com HTML, assets, CSS, JS, artigos, arquivos do admin e dependências do editor visual. Em seguida, valida se os arquivos essenciais existem. A pasta `public/` deve ser commitada porque, em projetos Express na Vercel, os assets estáticos são servidos diretamente de `public/**`.
+Isso regenera `public/` (CSS, JS, assets, vendor do editor, fallbacks HTML) e valida o output.
+
+Root Directory do projeto na Vercel: raiz do repositório `lamy-111` (onde estão `package.json` e `vercel.json`).
 
 ## 4. Deploy
 
-Pelo Git:
+Conecte o GitHub no painel da Vercel, ou:
 
 ```bash
-vercel
-vercel --prod
+npx vercel
+npx vercel --prod
 ```
 
-Ou conecte o repositório no painel da Vercel. O arquivo `vercel.json` já define o build e os rewrites necessários.
-
-## 5. Importar páginas estáticas para o CMS
-
-Depois de aplicar a migration e configurar as variáveis Supabase, rode:
+## 5. Importar páginas para o CMS (após env + migrations)
 
 ```bash
-npm run import:cms
+PHASE1_CMS_IMPORT_ENABLED=true npm run import:cms
 ```
 
-Isso importa as páginas HTML existentes como rascunhos no CMS.
+## 6. Checagem
 
-## 6. Checagem antes de subir
+Local:
 
 ```bash
+npm install
 npm run check
 npm run verify:vercel-output
+npm test
 ```
 
-Depois do deploy, acesse:
+Depois do deploy:
 
 ```text
 /api/health
 /admin/login
+/
 ```
 
-`/api/health` deve retornar `ok: true`. Se retornar `ok: false`, confira no JSON se faltam variáveis (`hasUrl` ou `hasServiceRoleKey`) ou se alguma tabela ainda não foi criada.
+`/api/health` deve retornar `ok: true`. Se `ok: false`, confira `hasUrl` / `hasServiceRoleKey` ou se as tabelas existem.
 
-A calculadora envia snapshots para `/api/calculator-leads` durante o preenchimento. Leads abandonados ficam com `status = 'incomplete'`; leads que chegam ao resultado ficam com `status = 'complete'`.
+Sem Supabase configurado, o site ainda sobe com HTML de fallback estático; o CMS e a calculadora só persistem com as variáveis e migrations aplicadas.

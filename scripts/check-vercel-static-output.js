@@ -42,6 +42,25 @@ for (const source of requiredRewriteSources) {
   }
 }
 
+const indexFunction = config.functions && config.functions["api/index.js"];
+const includeFiles = String(indexFunction?.includeFiles || "");
+const requiredIncludeFragments = [
+  "index.html",
+  "artigos.html",
+  "calculadora.html",
+  "artigos/**",
+  "lib/**",
+  "admin/**",
+  "css/**",
+  "public/_static-fallback/**",
+];
+
+for (const fragment of requiredIncludeFragments) {
+  if (!includeFiles.includes(fragment)) {
+    fail(`includeFiles de api/index.js deve incluir "${fragment}"`);
+  }
+}
+
 if (process.exitCode) {
   process.exit();
 }

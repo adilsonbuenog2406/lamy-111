@@ -981,6 +981,10 @@ if (servesStaticFiles) {
 
 async function trySendPublishedPage(res, pagePath) {
   const canonicalPath = normalizeLookupPath(pagePath) || pagePath;
+  if (!db.getHealth().ok) {
+    return false;
+  }
+
   try {
     const page = pageFromRow(await pageService.getPublishedByPath(canonicalPath));
     if (!page) return false;
@@ -1072,6 +1076,11 @@ app.get("/:slug", asyncHandler(async (req, res, next) => {
   }
 
   try {
+    if (!db.getHealth().ok) {
+      next();
+      return;
+    }
+
     const page = pageFromRow(await pageService.getPublishedBySlug(slug));
     if (!page) {
       next();

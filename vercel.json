@@ -1,11 +1,11 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "version": 2,
   "buildCommand": "npm run verify:vercel-output",
+  "framework": null,
   "functions": {
     "api/index.js": {
-      "maxDuration": 10,
-      "includeFiles": "{index.html,artigos.html,calculadora.html,artigos/**,lib/**,admin/**}"
+      "maxDuration": 30,
+      "includeFiles": "{index.html,artigos.html,calculadora.html,artigos/**,lib/**,admin/**,css/**,js/**,public/_static-fallback/**}"
     },
     "api/calculator-leads.js": {
       "maxDuration": 10
